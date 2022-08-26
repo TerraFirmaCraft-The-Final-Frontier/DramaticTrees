@@ -1,19 +1,20 @@
 package com.ferreusveritas.dynamictrees.entities.animation;
 
-import com.ferreusveritas.dynamictrees.ModConfigs;
-import com.ferreusveritas.dynamictrees.api.TreeHelper;
-import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
-import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
-import com.google.common.base.Predicate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,12 +23,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.ferreusveritas.dynamictrees.ModConfigs;
+import com.ferreusveritas.dynamictrees.ModSoundEvents;
+import com.ferreusveritas.dynamictrees.api.TreeHelper;
+import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
+import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
 
 public class AnimationHandlerFallover implements IAnimationHandler {
+
+	boolean fallSound = false;
 
 	@Override
 	public String getName() {
@@ -55,6 +59,13 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		if (entity.world.getBlockState(belowBlock).isSideSolid(entity.world, belowBlock, EnumFacing.UP)) {
 			entity.onGround = true;
 		}
+		
+		if (entity.getDestroyData().trunkHeight < 8) {
+			entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_SMALL, SoundCategory.AMBIENT, 0.8F, 1.0F);
+		}
+		else {
+			entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_LARGE, SoundCategory.AMBIENT, 0.8F, 1.0F);
+		}
 	}
 
 	@Override
@@ -71,7 +82,7 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		entity.motionY -= AnimationConstants.TREE_GRAVITY;
 		entity.posY += entity.motionY;
 
-		{//Handle entire entity falling and collisions with it's base and the ground
+		{//Handle entire entity falling and collisions with its base and the ground
 			World world = entity.world;
 			int radius = 8;
 			IBlockState state = entity.getDestroyData().getBranchBlockState(0);
@@ -99,6 +110,10 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 			getData(entity).bounces++;
 			fallSpeed *= -AnimationConstants.TREE_ELASTICITY;//bounce with elasticity
 			entity.landed = Math.abs(fallSpeed) < 0.02f;//The entity has landed if after a bounce it has little velocity
+			if (!fallSound) {
+				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_LANDING, SoundCategory.AMBIENT, 0.8F, entity.world.rand.nextFloat());
+				fallSound = true;
+			}
 		}
 
 		//Crush living things with clumsy dead trees
@@ -220,15 +235,13 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		return world.getEntitiesInAABBexcluding(entity, new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d2.x, vec3d2.y, vec3d2.z),
 			Predicates.and(
 				EntitySelectors.NOT_SPECTATING,
-				new Predicate<Entity>() {
-					public boolean apply(@Nullable Entity apply) {
-						if (apply instanceof EntityLivingBase && apply.canBeCollidedWith()) {
-							AxisAlignedBB axisalignedbb = apply.getEntityBoundingBox().grow(maxRadius);
-							return axisalignedbb.contains(vec3d1) || axisalignedbb.calculateIntercept(vec3d1, vec3d2) != null;
-						}
-
-						return false;
+				apply -> {
+					if (apply instanceof EntityLivingBase && apply.canBeCollidedWith()) {
+						AxisAlignedBB axisalignedbb = apply.getEntityBoundingBox().grow(maxRadius);
+						return axisalignedbb.contains(vec3d1) || axisalignedbb.calculateIntercept(vec3d1, vec3d2) != null;
 					}
+
+					return false;
 				}
 			)
 		).stream().map(a -> (EntityLivingBase) a).collect(Collectors.toList());
@@ -244,6 +257,8 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 
 	@Override
 	public boolean shouldDie(EntityFallingTree entity) {
+		
+		//boolean dead = entity.landed && entity.attackEntityFrom(DamageSource.GENERIC, 4);
 
 		boolean dead =
 			Math.abs(entity.rotationPitch) >= 160 ||

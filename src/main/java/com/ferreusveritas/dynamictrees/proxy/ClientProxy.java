@@ -122,9 +122,6 @@ public class ClientProxy extends CommonProxy {
 			ModelHelper.regModel(ModItems.dendroPotion, type.getIndex());
 		}
 		
-		//Register DirtBucket Mesher
-		ModelHelper.regModel(ModItems.dirtBucket);
-		
 		//Register Woodland Staff Mesher
 		ModelHelper.regModel(ModItems.treeStaff);
 		

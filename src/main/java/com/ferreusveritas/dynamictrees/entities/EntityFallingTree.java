@@ -1,18 +1,9 @@
 package com.ferreusveritas.dynamictrees.entities;
 
-import com.ferreusveritas.dynamictrees.ModBlocks;
-import com.ferreusveritas.dynamictrees.ModConfigs;
-import com.ferreusveritas.dynamictrees.api.TreeHelper;
-import com.ferreusveritas.dynamictrees.blocks.BlockRooty;
-import com.ferreusveritas.dynamictrees.entities.animation.AnimationHandlerData;
-import com.ferreusveritas.dynamictrees.entities.animation.AnimationHandlers;
-import com.ferreusveritas.dynamictrees.entities.animation.IAnimationHandler;
-import com.ferreusveritas.dynamictrees.models.IModelTracker;
-import com.ferreusveritas.dynamictrees.models.ModelTrackerCacheEntityFallingTree;
-import com.ferreusveritas.dynamictrees.util.BlockBounds;
-import com.ferreusveritas.dynamictrees.util.BranchDestructionData;
-import com.ferreusveritas.dynamictrees.util.BranchDestructionData.PosType;
-import com.ferreusveritas.dynamictrees.util.CoordUtils.Surround;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -35,10 +26,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import com.ferreusveritas.dynamictrees.ModBlocks;
+import com.ferreusveritas.dynamictrees.ModConfigs;
+import com.ferreusveritas.dynamictrees.api.TreeHelper;
+import com.ferreusveritas.dynamictrees.blocks.BlockRooty;
+import com.ferreusveritas.dynamictrees.entities.animation.AnimationHandlerData;
+import com.ferreusveritas.dynamictrees.entities.animation.AnimationHandlers;
+import com.ferreusveritas.dynamictrees.entities.animation.IAnimationHandler;
+import com.ferreusveritas.dynamictrees.models.IModelTracker;
+import com.ferreusveritas.dynamictrees.models.ModelTrackerCacheEntityFallingTree;
+import com.ferreusveritas.dynamictrees.util.BlockBounds;
+import com.ferreusveritas.dynamictrees.util.BranchDestructionData;
+import com.ferreusveritas.dynamictrees.util.BranchDestructionData.PosType;
+import com.ferreusveritas.dynamictrees.util.CoordUtils.Surround;
 
 /**
  * @author ferreusveritas
@@ -83,6 +83,7 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 	public EntityFallingTree(World worldIn) {
 		super(worldIn);
 		setSize(1.0f, 1.0f);
+		ignoreFrustumCheck = true;
 	}
 
 	public boolean isClientBuilt() {
@@ -278,7 +279,9 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 			updateNeighbors();
 		}
 
-		handleMotion();
+		if (!this.landed) {
+			handleMotion();
+		}
 
 		this.setEntityBoundingBox(this.normAABB.offset(posX, posY, posZ));
 		this.renderBB = this.renderNormAABB.offset(posX, posY, posZ);
@@ -290,6 +293,15 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 		}
 
 		firstUpdate = false;
+		
+		/*this.doBlockCollisions();
+		List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.posX, this.posY, this.posZ, this.posX + 1, this.posY + this.destroyData.trunkHeight, this.posZ + 1), EntitySelectors.getTeamCollisionPredicate(this));
+
+		if (!list.isEmpty()) {
+			for (Entity entity : list) {
+				this.applyEntityCollision(entity);
+			}
+		}*/
 	}
 
 	/**
@@ -300,7 +312,7 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 		HashSet<BlockPos> toUpdate = new HashSet<>();
 
 		//Gather a set of all of the block positions that were recently destroyed
-		Iterables.concat(destroyData.getPositions(PosType.BRANCHES), destroyData.getPositions(PosType.LEAVES)).forEach(pos -> destroyed.add(pos));
+		Iterables.concat(destroyData.getPositions(PosType.BRANCHES), destroyData.getPositions(PosType.LEAVES)).forEach(destroyed::add);
 
 		//Gather a list of all of the non-destroyed blocks surrounding each destroyed block
 		for (BlockPos d : destroyed) {
@@ -450,16 +462,15 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 		if (compound.hasKey("payload")) {
 			NBTTagList list = (NBTTagList) compound.getTag("payload");
 
-			Iterator<NBTBase> iter = list.iterator();
-			while (iter.hasNext()) {
-				NBTBase tag = iter.next();
-				if (tag instanceof NBTTagCompound) {
+			for (NBTBase tag : list)
+			{
+				if (tag instanceof NBTTagCompound)
+				{
 					NBTTagCompound compTag = (NBTTagCompound) tag;
 					payload.add(new ItemStack(compTag));
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -489,5 +500,35 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 
 		return null;
 	}
+
+	/*@Nullable
+	public AxisAlignedBB getCollisionBox(Entity entity) {
+		return entity.canBePushed() ? entity.getEntityBoundingBox() : null;
+	}
+
+	@Nullable
+	public AxisAlignedBB getCollisionBoundingBox() {
+		return this.getEntityBoundingBox();
+	}
+
+	public boolean canBePushed() {
+		return true;
+	}
+
+	public void applyEntityCollision(Entity entity) {
+		if (entity instanceof EntityFallingTree)
+		{
+			if (entity.getEntityBoundingBox().minY < this.getEntityBoundingBox().maxY) {
+				super.applyEntityCollision(entity);
+			}
+		}
+		else if (entity.getEntityBoundingBox().minY <= this.getEntityBoundingBox().minY) {
+			super.applyEntityCollision(entity);
+		}
+	}
+
+	public boolean canBeCollidedWith() {
+		return !this.isDead;
+	}*/
 
 }

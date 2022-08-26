@@ -1,13 +1,13 @@
 [
 {
   "modid": "dynamictrees",
-  "name": "Dynamic Trees",
-  "description": "Progressively growing trees.. forests that spread",
+  "name": "Dramatic Trees",
+  "description": "Dynamic Trees with a little bit more edge.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://minecraft.curseforge.com/projects/dynamictrees",
-  "updateUrl": "https://github.com/DynamicTreesTeam/DynamicTreesVersionInfo/blob/master/DynamicTrees.json?raw=true?raw=true",
-  "authorList": [ "FerreusVeritas" ],
+  "url": "https://minecraft.curseforge.com/projects/dramatictrees",
+  "updateUrl": "https://github.com/TerraFirmaCraft-The-Final-Frontier/DramaticTreesVersionInfo/blob/master/DynamicTrees.json?raw=true?raw=true",
+  "authorList": ["Lylythii", "ACGaming", "FerreusVeritas"],
   "credits": "",
   "logoFile": "assets/dynamictrees/logo.png",
   "screenshots": [],

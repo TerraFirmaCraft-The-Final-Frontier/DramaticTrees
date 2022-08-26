@@ -1,0 +1,29 @@
+{
+  "entities.tree.crack_large": {
+    "sounds": [
+      {
+        "name": "dynamictrees:crack1"
+      },
+	  {
+        "name": "dynamictrees:crack2"
+      },
+	  {
+        "name": "dynamictrees:crack3"
+      }
+    ]
+  },
+    "entities.tree.crack_small": {
+    "sounds": [
+      {
+        "name": "dynamictrees:crack_small"
+      }
+    ]
+  },
+  "entities.tree.landing": {
+    "sounds": [
+      {
+        "name": "dynamictrees:landing_soft"
+      }
+    ]
+  }
+}

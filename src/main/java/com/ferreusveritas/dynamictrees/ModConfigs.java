@@ -97,7 +97,7 @@ public class ModConfigs {
 		boneMealGrowthPulses = config.getInt("boneMealGrowthPulses", "interaction", 1, 1, 512, "The amount of growth pulses to send when bone meal is applied to a tree. Setting values higher than 64 is not recommended other than for testing purposes.");
 
 		//Vanilla
-		replaceVanillaSapling = config.getBoolean("replaceVanillaSapling", "vanilla", false, "Right clicking with a vanilla sapling places a dynamic sapling instead.");
+		replaceVanillaSapling = config.getBoolean("replaceVanillaSapling", "vanilla", true, "Right clicking with a vanilla sapling places a dynamic sapling instead.");
 
 		//World
 		podzolGen = config.getBoolean("podzolGen", "world", true, "Randomly generate podzol under select trees.");
