@@ -2,6 +2,7 @@ package com.ferreusveritas.dynamictrees;
 
 import com.ferreusveritas.dynamictrees.api.BoneMealHelper;
 import com.ferreusveritas.dynamictrees.items.DendroPotion;
+import com.ferreusveritas.dynamictrees.items.DirtBucket;
 import com.ferreusveritas.dynamictrees.items.Staff;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -17,10 +18,12 @@ import java.util.ArrayList;
 public class ModItems {
 
 	public static DendroPotion dendroPotion;
+	public static DirtBucket dirtBucket;
 	public static Staff treeStaff;
 	
 	public static void preInit() {
 		dendroPotion = new DendroPotion();//Potions
+		dirtBucket = new DirtBucket();//Dirt Bucket
 		treeStaff = new Staff();//Creative Mode Staff
 	}
 
@@ -32,7 +35,7 @@ public class ModItems {
 		ModTrees.baseFamilies.forEach(tree -> tree.getRegisterableItems(treeItems));
 		ModTrees.dynamicCactus.getRegisterableItems(treeItems);
 
-		registry.registerAll(dendroPotion, treeStaff);
+		registry.registerAll(dendroPotion, dirtBucket, treeStaff);
 		registry.registerAll(treeItems.toArray(new Item[0]));
 		
 		BoneMealHelper.addItem(Items.DYE, 15);
