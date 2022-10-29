@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.ferreusveritas.dynamictrees.trees.TreeCactus;
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -60,11 +61,12 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 			entity.onGround = true;
 		}
 		
-		if (entity.getDestroyData().trunkHeight < 8) {
-			entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_SMALL, SoundCategory.AMBIENT, 0.8F, 1.0F);
-		}
-		else {
-			entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_LARGE, SoundCategory.AMBIENT, 0.8F, 1.0F);
+		if (!(entity.getDestroyData().species.getFamily() instanceof TreeCactus)) {//Exempt cacti
+			if (entity.getDestroyData().trunkHeight < 8) {//Play sound according to tree size
+				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_SMALL, SoundCategory.AMBIENT, 0.8F, 1.0F);
+			} else {
+				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_LARGE, SoundCategory.AMBIENT, 0.8F, 1.0F);
+			}
 		}
 	}
 
