@@ -40,7 +40,7 @@ public class ModConstants {
 	//Forge
 	private static final String FORGE = "forge";
 	//public static final String FORGE_VER_NUM = "14.23.5.2768";
-	public static final String FORGE_VER_NUM = "14.23.5.2859";
+	public static final String FORGE_VER_NUM = "14.23.5.2847";
 	public static final String FORGE_VER = FORGE + AT + FORGE_VER_NUM + ORGREATER;
 
 	public static final String DEPENDENCIES

@@ -1,13 +1,15 @@
 buildscript {
 	repositories {
-		jcenter()
-		maven { url = "http://files.minecraftforge.net/maven" }
+		maven {
+			url = "https://maven.minecraftforge.net"
+		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath("com.anatawa12.forge:ForgeGradle:2.3-1.0.+") {
+			changing = true
+		}
 	}
 }
-
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
@@ -35,8 +37,21 @@ minecraft {
 		mappings = project.mappings_version
 }
 
-dependencies {
+repositories {
+	maven {
+		url "https://cursemaven.com"
+	}
+}
 
+dependencies {
+	// Compile against full Hwyla jar.
+	implementation("curse.maven:hwyla-253449:2568751")
+
+	// Compile against Serene Seasons, but don't use at runtime.
+	compileOnly("curse.maven:serene-seasons-291874:2799213")
+
+	// Use Patchouli at runtime only (for testing the guide book, which is exclusively Json).
+	runtimeOnly("curse.maven:patchouli-306770:3162874")
 }
 
 processResources {
