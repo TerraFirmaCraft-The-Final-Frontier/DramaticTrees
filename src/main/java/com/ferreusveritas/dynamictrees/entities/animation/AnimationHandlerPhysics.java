@@ -1,6 +1,5 @@
 package com.ferreusveritas.dynamictrees.entities.animation;
 
-import com.ferreusveritas.dynamictrees.ModBlocks;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
@@ -98,40 +97,37 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 		AxisAlignedBB fallBox = new AxisAlignedBB(entity.posX - radius, entity.posY, entity.posZ - radius, entity.posX + radius, entity.posY + 1.0, entity.posZ + radius);
 		BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
 		IBlockState collState = world.getBlockState(pos);
+		
+		if (collState.getBlock() instanceof BlockLiquid) {
+			entity.motionY += AnimationConstants.TREE_GRAVITY;//Undo the gravity
+			//Create drag in liquid
+			entity.motionX *= 0.8f;
+			entity.motionY *= 0.8f;
+			entity.motionZ *= 0.8f;
+			getData(entity).rotYaw *= 0.8f;
+			getData(entity).rotPit *= 0.8f;
+			//Add a little buoyancy
+			entity.motionY += 0.01;
+			entity.onFire = false;
+		} else {
+			AxisAlignedBB collBox = collState.getCollisionBoundingBox(world, pos);
 
-		if (!TreeHelper.isLeaves(collState) && !TreeHelper.isBranch(collState) && collState.getBlock() != ModBlocks.blockTrunkShell) {
-			if (collState.getBlock() instanceof BlockLiquid) {
-				entity.motionY += AnimationConstants.TREE_GRAVITY;//Undo the gravity
-				//Create drag in liquid
-				entity.motionX *= 0.8f;
-				entity.motionY *= 0.8f;
-				entity.motionZ *= 0.8f;
-				getData(entity).rotYaw *= 0.8f;
-				getData(entity).rotPit *= 0.8f;
-				//Add a little buoyancy
-				entity.motionY += 0.01;
-				entity.onFire = false;
-			} else {
-				AxisAlignedBB collBox = collState.getCollisionBoundingBox(world, pos);
-
-				if (collBox != null) {
-					collBox = collBox.offset(pos);
-					if (fallBox.intersects(collBox)) {
-						entity.motionY = 0;
-						entity.posY = collBox.maxY;
-						entity.prevPosY = entity.posY;
-						entity.landed = true;
-						entity.onGround = true;
-						if (entity.onFire) {
-							if (entity.world.isAirBlock(pos.up())) {
-								entity.world.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
-							}
+			if (collBox != null) {
+				collBox = collBox.offset(pos);
+				if (fallBox.intersects(collBox)) {
+					entity.motionY = 0;
+					entity.posY = collBox.maxY;
+					entity.prevPosY = entity.posY;
+					entity.landed = true;
+					entity.onGround = true;
+					if (entity.onFire) {
+						if (entity.world.isAirBlock(pos.up())) {
+							entity.world.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	@Override

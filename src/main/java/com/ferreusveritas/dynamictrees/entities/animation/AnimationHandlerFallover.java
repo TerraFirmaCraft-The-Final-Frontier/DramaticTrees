@@ -1,18 +1,19 @@
 package com.ferreusveritas.dynamictrees.entities.animation;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
+import com.ferreusveritas.dynamictrees.ModConfigs;
+import com.ferreusveritas.dynamictrees.ModSoundEvents;
+import com.ferreusveritas.dynamictrees.api.TreeHelper;
+import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
+import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
 import com.ferreusveritas.dynamictrees.trees.TreeCactus;
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -24,11 +25,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.ferreusveritas.dynamictrees.ModConfigs;
-import com.ferreusveritas.dynamictrees.ModSoundEvents;
-import com.ferreusveritas.dynamictrees.api.TreeHelper;
-import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
-import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AnimationHandlerFallover implements IAnimationHandler {
 
@@ -176,12 +175,38 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 			float tex = 0.0625f;
 			float half = MathHelper.clamp(tex * (segment + 1) * 2, tex, maxRadius);
 			AxisAlignedBB testBB = new AxisAlignedBB(segX - half, segY - half, segZ - half, segX + half, segY + half, segZ + half);
-
+			
 			if (!entity.world.getCollisionBoxes(entity, testBB).isEmpty()) {
-				return true;
+				if (ModConfigs.enableFallingTreeDomino) {
+					int solidBlock = 0;
+					Iterable<BlockPos> blocks = BlockPos.getAllInBox(
+						(int) Math.floor(testBB.minX) - 1,
+						(int) Math.floor(testBB.minY) - 1,
+						(int) Math.floor(testBB.minZ) - 1,
+						(int) Math.ceil(testBB.maxX) + 1,
+						(int) Math.ceil(testBB.maxY) + 1,
+						(int) Math.ceil(testBB.maxZ) + 1);
+					
+					for (BlockPos collBlockPos : blocks) {
+						IBlockState collBlockState = entity.world.getBlockState(collBlockPos);
+						Block collBlock = collBlockState.getBlock();
+						if (TreeHelper.isBranch(collBlock)) {//Break other trees
+							BlockPos dominoPos = TreeHelper.findRootNode(entity.world, collBlockPos).up();
+							((BlockBranch) collBlock).dominoBreak(entity.world, dominoPos, toolDir);
+							solidBlock++;
+						} else if (TreeHelper.isLeaves(collBlock) || collBlock instanceof BlockLeaves || collBlock instanceof BlockTallGrass) {//Break foliage
+							entity.world.destroyBlock(collBlockPos, false);
+						} else {
+							solidBlock++;
+						}
+					}
+					return solidBlock > 0;
+				}
+				else {
+					return true;
+				}
 			}
 		}
-
 		return false;
 	}
 
@@ -266,7 +291,7 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 			Math.abs(entity.rotationPitch) >= 160 ||
 				Math.abs(entity.rotationYaw) >= 160 ||
 				entity.landed ||
-				entity.ticksExisted > 120 + (entity.getDestroyData().trunkHeight);
+				entity.ticksExisted > 300 + (entity.getDestroyData().trunkHeight);
 
 		//Force the Rooty Dirt to update if it's there.  Turning it back to dirt.
 		if (dead) {

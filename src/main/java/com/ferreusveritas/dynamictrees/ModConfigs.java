@@ -36,6 +36,7 @@ public class ModConfigs {
 	public static EnumAxeDamage axeDamageMode;
 	public static boolean enableFallingTrees;
 	public static boolean enableFallingTreeDamage;
+	public static boolean enableFallingTreeDomino;
 	public static float fallingTreeDamageMultiplier;
 	public static boolean dirtBucketPlacesDirt;
 	public static boolean enableAltLeavesSnow;
@@ -91,6 +92,7 @@ public class ModConfigs {
 		axeDamageMode = EnumAxeDamage.values()[config.getInt("axeDamageMode", "interaction", 1, 0, 2, "Modes: 0=Standard 1 Damage, 1=By Branch/Trunk Thickness, 2=By Tree Volume")];
 		enableFallingTrees = config.getBoolean("enableFallingTrees", "interaction", true, "If enabled then trees will fall over when harvested");
 		enableFallingTreeDamage = config.getBoolean("enableFallingTreeDamage", "interaction", true, "If enabled then trees will harm living entities when falling");
+		enableFallingTreeDomino = config.getBoolean("enableFallingTreeDomino", "interaction", true, "If enabled then trees will break other trees when falling");
 		fallingTreeDamageMultiplier = config.getFloat("fallingTreeDamageMultiplier", "interaction", 1.0f, 0.0f, 100.0f, "Multiplier for damage incurred by a falling tree");
 		dirtBucketPlacesDirt = config.getBoolean("dirtBucketPlacesDirt", "interaction", true, "If enabled the Dirt Bucket will place a dirt block on right-click");
 		enableAltLeavesSnow = config.getBoolean("enableAltLeavesSnow", "interaction", false, "If enabled then an alternate(non-vanilla) snow layer block will be used on top of leaves");

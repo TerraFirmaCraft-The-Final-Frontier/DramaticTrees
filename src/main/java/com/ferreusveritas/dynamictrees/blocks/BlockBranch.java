@@ -394,7 +394,6 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 
 	@Override
 	public void futureBreak(IBlockState state, World world, BlockPos cutPos, EntityLivingBase entity) {
-
 		//Try to get the face being pounded on
 		final double reachDistance = entity instanceof EntityPlayerMP ? entity.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() : 5.0D;
 		RayTraceResult rtResult = playerRayTrace(entity, reachDistance, 1.0F);
@@ -411,7 +410,7 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 		ItemStack heldItem = entity.getHeldItemMainhand();
 		int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, heldItem);
 		float fortuneFactor = 1.0f + 0.25f * fortune;
-		float woodVolume = destroyData.woodVolume;// The amount of wood calculated from the body of the tree network
+		float woodVolume = destroyData.woodVolume;//The amount of wood calculated from the body of the tree network
 		List<ItemStack> woodItems = getLogDrops(world, cutPos, destroyData.species, woodVolume * fortuneFactor);
 
 		if (entity.getActiveHand() == null) {//What the hell man? I trusted you!
@@ -419,7 +418,7 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 		}
 
 		float chance = 1.0f;
-		//Fire the block harvesting event.  For An-Sar's PrimalCore mod :)
+		//Fire the block harvesting event. For An-Sar's PrimalCore mod :)
 		if (entity instanceof EntityPlayer) {
 			chance = net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(woodItems, world, cutPos, state, fortune, chance, false, (EntityPlayer) entity);
 		}
@@ -436,8 +435,8 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 	}
 
 	// We override the standard behavior because we need to preserve the tree network structure to calculate
-	// the wood volume for drops.  The standard removedByPlayer() call will set this block to air before we get
-	// a chance to make a summation.  Because we have done this we must re-implement the entire drop logic flow.
+	// the wood volume for drops. The standard removedByPlayer() call will set this block to air before we get
+	// a chance to make a summation. Because we have done this we must re-implement the entire drop logic flow.
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos cutPos, EntityPlayer player, boolean canHarvest) {
 		return removedByEntity(state, world, cutPos, player);
@@ -458,6 +457,24 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 
 		//This will drop the EntityFallingTree into the world
 		EntityFallingTree.dropTree(world, destroyData, woodDropList, destroyType);
+	}
+
+	public void dominoBreak(World world, BlockPos cutPos, EnumFacing dir) {
+		//Do the actual destruction
+		BranchDestructionData destroyData = destroyBranchFromNode(world, cutPos, dir, false);
+
+		//Get all of the wood drops
+		float woodVolume = destroyData.woodVolume;//The amount of wood calculated from the body of the tree network
+		List<ItemStack> woodItems = getLogDrops(world, cutPos, destroyData.species, woodVolume);
+
+		//Build the final wood drop list taking chance into consideration
+		List<ItemStack> woodDropList = woodItems.stream().filter(i -> {
+			world.rand.nextFloat();
+			return true;
+		}).collect(Collectors.toList());
+
+		//This will drop the EntityFallingTree into the world
+		EntityFallingTree.dropTree(world, destroyData, woodDropList, DestroyType.HARVEST);
 	}
 
 	/**
