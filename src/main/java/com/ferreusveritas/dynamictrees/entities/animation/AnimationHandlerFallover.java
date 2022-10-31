@@ -3,9 +3,12 @@ package com.ferreusveritas.dynamictrees.entities.animation;
 import com.ferreusveritas.dynamictrees.ModConfigs;
 import com.ferreusveritas.dynamictrees.ModSoundEvents;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
+import com.ferreusveritas.dynamictrees.api.network.MapSignal;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
+import com.ferreusveritas.dynamictrees.systems.nodemappers.NodeExtState;
 import com.ferreusveritas.dynamictrees.trees.TreeCactus;
+import com.ferreusveritas.dynamictrees.util.BranchDestructionData;
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -190,11 +193,22 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 					for (BlockPos collBlockPos : blocks) {
 						IBlockState collBlockState = entity.world.getBlockState(collBlockPos);
 						Block collBlock = collBlockState.getBlock();
-						if (TreeHelper.isBranch(collBlock)) {//Break other trees
+						if (TreeHelper.isBranch(collBlock)) {// Check for branch
 							BlockPos dominoPos = TreeHelper.findRootNode(entity.world, collBlockPos).up();
-							((BlockBranch) collBlock).dominoBreak(entity.world, dominoPos, toolDir);
-							solidBlock++;
-						} else if (TreeHelper.isLeaves(collBlock) || collBlock instanceof BlockLeaves || collBlock instanceof BlockTallGrass) {//Break foliage
+							NodeExtState extStateMapper = new NodeExtState(dominoPos);
+							((BlockBranch) collBlock).analyse(collBlockState, entity.world, dominoPos, null, new MapSignal(extStateMapper));
+							//Calculate other trunk height
+							int dominoTrunkHeight = 1;
+							for (BlockPos iter = new BlockPos(0, 1, 0); extStateMapper.getExtStateMap().containsKey(iter); iter = iter.up()) {
+								dominoTrunkHeight++;
+							}
+							if (entity.getDestroyData().trunkHeight > dominoTrunkHeight) {//Compare trunk heights
+								//Break other tree
+								((BlockBranch) collBlock).dominoBreak(entity.world, dominoPos, toolDir);
+								solidBlock++;
+							}
+						} else if (TreeHelper.isLeaves(collBlock) || collBlock instanceof BlockLeaves || collBlock instanceof BlockTallGrass) {//Check for foliage
+							//Break foliage
 							entity.world.destroyBlock(collBlockPos, false);
 						} else {
 							solidBlock++;
