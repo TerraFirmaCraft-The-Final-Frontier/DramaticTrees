@@ -194,7 +194,7 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 						IBlockState collBlockState = entity.world.getBlockState(collBlockPos);
 						Block collBlock = collBlockState.getBlock();
 						if (TreeHelper.isBranch(collBlock)) {// Check for branch
-							BlockPos dominoPos = TreeHelper.findRootNode(entity.world, collBlockPos).up();
+							BlockPos dominoPos = ModConfigs.treeStumping ? TreeHelper.findRootNode(entity.world, collBlockPos).up(2) : TreeHelper.findRootNode(entity.world, collBlockPos).up();
 							NodeExtState extStateMapper = new NodeExtState(dominoPos);
 							((BlockBranch) collBlock).analyse(collBlockState, entity.world, dominoPos, null, new MapSignal(extStateMapper));
 							//Calculate other trunk height

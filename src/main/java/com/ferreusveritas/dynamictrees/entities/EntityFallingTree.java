@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.ferreusveritas.dynamictrees.DynamicTrees;
 import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -99,8 +100,7 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 	public EntityFallingTree setData(BranchDestructionData destroyData, List<ItemStack> payload, DestroyType destroyType) {
 		this.destroyData = destroyData;
 		if (destroyData.getNumBranches() == 0) { //If the entity contains no branches there's no reason to create it at all
-			System.err.println("Warning: Tried to create a EntityFallingTree with no branch blocks. This shouldn't be possible.");
-			new Exception().printStackTrace();
+			DynamicTrees.log.debug("Warning: Tried to create a EntityFallingTree with no branch blocks. This shouldn't be possible.");
 			setDead();
 			return this;
 		}

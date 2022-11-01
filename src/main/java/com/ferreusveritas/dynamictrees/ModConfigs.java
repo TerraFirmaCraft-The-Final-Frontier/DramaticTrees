@@ -57,6 +57,7 @@ public class ModConfigs {
 	public static boolean enableSeasonalSeedDropFactor;
 	public static boolean enableSeasonalGrowthFactor;
 	public static boolean enableSeasonalFruitProductionFactor;
+	public static boolean treeStumping;
 	
 	public static void preInit(FMLPreInitializationEvent event) {
 
@@ -97,6 +98,7 @@ public class ModConfigs {
 		dirtBucketPlacesDirt = config.getBoolean("dirtBucketPlacesDirt", "interaction", true, "If enabled the Dirt Bucket will place a dirt block on right-click");
 		enableAltLeavesSnow = config.getBoolean("enableAltLeavesSnow", "interaction", false, "If enabled then an alternate(non-vanilla) snow layer block will be used on top of leaves");
 		boneMealGrowthPulses = config.getInt("boneMealGrowthPulses", "interaction", 1, 1, 512, "The amount of growth pulses to send when bone meal is applied to a tree. Setting values higher than 64 is not recommended other than for testing purposes.");
+		treeStumping = config.getBoolean("treeStumping", "interaction", false, "If enabled then tree stumps remain as an eternal memorial and remind you of your terrible deeds");
 
 		//Vanilla
 		replaceVanillaSapling = config.getBoolean("replaceVanillaSapling", "vanilla", true, "Right clicking with a vanilla sapling places a dynamic sapling instead.");
