@@ -1,6 +1,7 @@
 package com.ferreusveritas.dynamictrees.models;
 
 import com.ferreusveritas.dynamictrees.blocks.BlockRootyWater;
+import com.fuzs.aquaacrobatics.config.ConfigHandler;
 import com.google.common.primitives.Ints;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,7 @@ public class ModelRootyWater implements IBakedModel {
 
 	public ModelRootyWater(IBakedModel rootsModel) {
 		this.rootsModel = rootsModel;
-		String textureProvider = Loader.isModLoaded("aquaacrobatics") ? "aquaacrobatics" : "minecraft";
+		String textureProvider = Loader.isModLoaded("aquaacrobatics") && ConfigHandler.BlocksConfig.newWaterColors ? "aquaacrobatics" : "minecraft";
 		this.stillWaterTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(textureProvider + ":blocks/water_still");
 		this.flowWaterTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(textureProvider + ":blocks/water_flow");
 	}

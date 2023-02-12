@@ -50,6 +50,9 @@ dependencies {
 	// Compile against Serene Seasons, but don't use at runtime.
 	compileOnly("curse.maven:serene-seasons-291874:2799213")
 
+	// Compile against Aqua Acrobatics, but don't use at runtime.
+	compileOnly("curse.maven:aquaacrobatics-321792:4391401")
+
 	// Use Patchouli at runtime only (for testing the guide book, which is exclusively Json).
 	runtimeOnly("curse.maven:patchouli-306770:3162874")
 }
