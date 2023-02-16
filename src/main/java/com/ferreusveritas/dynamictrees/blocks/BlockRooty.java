@@ -51,6 +51,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -268,7 +269,8 @@ public class BlockRooty extends Block implements ITreePart, ITileEntityProvider,
 
 		if (branch.isPresent()) {
 			BranchDestructionData destroyData = branch.get().destroyBranchFromNode(world, rootPos.up(), EnumFacing.DOWN, true);
-			EntityFallingTree.dropTree(world, destroyData, new ArrayList<ItemStack>(0), DestroyType.ROOT);
+			List<ItemStack> woodDropList = branch.get().getLogDrops(world, rootPos.up(), destroyData.species, destroyData.woodVolume);
+			EntityFallingTree.dropTree(world, destroyData, woodDropList, DestroyType.BLAST);
 		}
 	}
 
