@@ -121,10 +121,12 @@ public class ClientProxy extends CommonProxy {
 		for (DendroPotion.DendroPotionType type : DendroPotion.DendroPotionType.values()) {
 			ModelHelper.regModel(ModItems.dendroPotion, type.getIndex());
 		}
+
+		//Register Dirt Bucket Mesher
+		ModelHelper.regModel(ModItems.dirtBucket);
 		
 		//Register Woodland Staff Mesher
 		ModelHelper.regModel(ModItems.treeStaff);
-		
 		
 		//TREE PARTS
 		
