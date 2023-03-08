@@ -8,7 +8,7 @@ This branch is for the 1.12.2 version of Minecraft.
 
 ### Links
 - [Downloads](https://minecraft.curseforge.com/projects/dramatictrees/files)
-- [Discord](https://discord.gg/cMfnWdCCCA)
+- [Discord](https://discord.gg/EeGWgbwwrJ)
 
 ### Compiling
 * Clone the repository.
