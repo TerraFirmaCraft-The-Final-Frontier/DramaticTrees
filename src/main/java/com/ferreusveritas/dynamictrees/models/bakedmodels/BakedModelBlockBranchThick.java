@@ -155,11 +155,13 @@ public class BakedModelBlockBranchThick extends BakedModelBlockBranchBasic imple
 			IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
 			int[] connections = pollConnections(coreRadius, extendedBlockState);
 
+			boolean branchesAround = connections[2] + connections[3] + connections[4] + connections[5] != 0;
+
 			if (connections[0] < 1) {
 				quadsList.addAll(trunksBotRings[coreRadius - 9].getQuads(state, side, rand));
 			}
-			if (connections[1] < 1) {
-				quadsList.addAll(trunksTopRings[coreRadius - 9].getQuads(state, side, rand));
+			if (connections[1] < 1 && !branchesAround) {
+				quadsList.addAll(trunksTopRings[coreRadius - 9 ].getQuads(state, side, rand));
 			} else if (connections[1] == 1 && side == EnumFacing.UP) {
 				quadsList.addAll(trunksTopBark[coreRadius - 9].getQuads(state, side, rand));
 			}
