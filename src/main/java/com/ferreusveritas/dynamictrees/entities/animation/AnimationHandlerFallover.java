@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
 
 public class AnimationHandlerFallover implements IAnimationHandler {
 
-	boolean fallSound = false;
-
 	@Override
 	public String getName() {
 		return "fallover";
@@ -110,14 +108,12 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		}
 
 		if (fallSpeed > 0 && testCollision(entity)) {
+			float fallSpeedPrev = fallSpeed;
 			addRotation(entity, -fallSpeed);//pull back to before the collision
 			getData(entity).bounces++;
 			fallSpeed *= -AnimationConstants.TREE_ELASTICITY;//bounce with elasticity
 			entity.landed = Math.abs(fallSpeed) < 0.02f;//The entity has landed if after a bounce it has little velocity
-			if (!fallSound) {
-				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_LANDING, SoundCategory.AMBIENT, 0.8F, entity.world.rand.nextFloat());
-				fallSound = true;
-			}
+			if(fallSpeedPrev > 0.1F && !entity.world.isRemote) entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_LANDING, SoundCategory.AMBIENT, (Math.min(1.5F, fallSpeedPrev) / 1.5F) * 0.6F + 0.1F, entity.world.rand.nextFloat() * 0.2F + 0.6F);
 		}
 
 		//Crush living things with clumsy dead trees
