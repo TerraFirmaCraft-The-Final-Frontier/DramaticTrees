@@ -3,12 +3,14 @@ package com.ferreusveritas.dynamictrees.entities.animation;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
+import com.ferreusveritas.dynamictrees.trees.Species;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -30,6 +32,7 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 
 		float rotYaw = 0;
 		float rotPit = 0;
+		boolean endSoundPlayed = false;
 
 	}
 
@@ -99,6 +102,7 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 		IBlockState collState = world.getBlockState(pos);
 		
 		if (collState.getBlock() instanceof BlockLiquid) {
+			playEndSound(entity, true);
 			entity.motionY += AnimationConstants.TREE_GRAVITY;//Undo the gravity
 			//Create drag in liquid
 			entity.motionX *= 0.8f;
@@ -115,6 +119,7 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 			if (collBox != null) {
 				collBox = collBox.offset(pos);
 				if (fallBox.intersects(collBox)) {
+					playEndSound(entity, false);
 					entity.motionY = 0;
 					entity.posY = collBox.maxY;
 					entity.prevPosY = entity.posY;
@@ -127,6 +132,15 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 					}
 				}
 			}
+		}
+	}
+
+	protected void playEndSound(EntityFallingTree entity, boolean onWater) {
+		if (!getData(entity).endSoundPlayed && !entity.world.isRemote) {
+			Species species = entity.getDestroyData().species;
+			SoundEvent sound = species.getFallingBranchEndSound(entity.getDestroyData().woodVolume, entity.getDestroyData().getNumLeaves() > 0, onWater);
+			entity.playSound(sound, 1.0F, species.getFallingBranchPitch(entity.getDestroyData().woodVolume));
+			getData(entity).endSoundPlayed = true;
 		}
 	}
 

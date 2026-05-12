@@ -3,6 +3,7 @@ package com.ferreusveritas.dynamictrees.trees;
 import com.ferreusveritas.dynamictrees.ModBlocks;
 import com.ferreusveritas.dynamictrees.ModConfigs;
 import com.ferreusveritas.dynamictrees.ModConstants;
+import com.ferreusveritas.dynamictrees.ModSoundEvents;
 import com.ferreusveritas.dynamictrees.api.*;
 import com.ferreusveritas.dynamictrees.api.network.INodeInspector;
 import com.ferreusveritas.dynamictrees.api.network.MapSignal;
@@ -45,6 +46,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
@@ -52,6 +54,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -1502,6 +1505,42 @@ public class Species extends net.minecraftforge.registries.IForgeRegistryEntry.I
 		return getFamily().selectAnimationHandler(fallingEntity);
 	}
 
+	///////////////////////////////////////////
+	// SOUND EFFECTS
+	/// ////////////////////////////////////////
+
+	protected float bigTreeSoundThreshold = 20;
+
+	public SoundEvent getFallingTreeStartSound(float treeVolume, boolean hasLeaves) {
+		return treeVolume > bigTreeSoundThreshold ?
+			ModSoundEvents.FALLING_TREE_BIG_START :
+			ModSoundEvents.FALLING_TREE_MEDIUM_START;
+	}
+
+	public SoundEvent getFallingTreeEndSound(float treeVolume, boolean hasLeaves) {
+		return treeVolume > bigTreeSoundThreshold ?
+			ModSoundEvents.FALLING_TREE_BIG_END :
+			ModSoundEvents.FALLING_TREE_MEDIUM_END;
+	}
+
+	public float getFallingTreePitch(float treeVolume) {
+		return treeVolume > bigTreeSoundThreshold ?
+			(25 / treeVolume) :
+			(10 / (5 + treeVolume * 0.6f));
+	}
+
+	public float getFallingBranchPitch(float treeVolume) {
+		return 1 / treeVolume;
+	}
+
+	public SoundEvent getFallingTreeHitWaterSound(float treeVolume, boolean hasLeaves) {
+		return ModSoundEvents.FALLING_TREE_HIT_WATER;
+	}
+
+	public SoundEvent getFallingBranchEndSound(float treeVolume, boolean hasLeaves, boolean fellOnWater) {
+		return fellOnWater ? (hasLeaves ? ModSoundEvents.FALLING_TREE_SMALL_HIT_WATER : SoundEvents.ENTITY_PLAYER_SPLASH) :
+			(hasLeaves ? ModSoundEvents.FALLING_TREE_SMALL_END : ModSoundEvents.FALLING_TREE_SMALL_END_BARE);
+	}
 
 	//////////////////////////////
 	// BONSAI POT

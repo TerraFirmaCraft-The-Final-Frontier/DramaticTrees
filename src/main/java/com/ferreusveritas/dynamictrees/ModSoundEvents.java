@@ -7,21 +7,32 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber(modid = ModConstants.MODID)
-public class ModSoundEvents
-{
+public class ModSoundEvents {
+	public static final SoundEvent FALLING_TREE_BIG_START = createSoundEvent("falling_tree_big_start");
+	public static final SoundEvent FALLING_TREE_BIG_END = createSoundEvent("falling_tree_big_end");
+	public static final SoundEvent FALLING_TREE_MEDIUM_START = createSoundEvent("falling_tree_medium_start");
+	public static final SoundEvent FALLING_TREE_MEDIUM_END = createSoundEvent("falling_tree_medium_end");
+	public static final SoundEvent FALLING_TREE_SMALL_END = createSoundEvent("falling_tree_small_end");
+	public static final SoundEvent FALLING_TREE_SMALL_END_BARE = createSoundEvent("falling_tree_small_end_bare");
+	public static final SoundEvent FALLING_TREE_HIT_WATER = createSoundEvent("falling_tree_hit_water");
+	public static final SoundEvent FALLING_TREE_SMALL_HIT_WATER = createSoundEvent("falling_tree_small_hit_water");
 
-	public final static SoundEvent TREE_CRACK_SMALL = new SoundEvent(new ResourceLocation(ModConstants.MODID + ":entities.tree.crack_small"));
-	public final static SoundEvent TREE_CRACK_LARGE = new SoundEvent(new ResourceLocation(ModConstants.MODID + ":entities.tree.crack_large"));
-	public final static SoundEvent TREE_LANDING = new SoundEvent(new ResourceLocation(ModConstants.MODID + ":entities.tree.landing"));
+	private static SoundEvent createSoundEvent(String path) {
+		ResourceLocation rl = new ResourceLocation(ModConstants.MODID, path);
+		return new SoundEvent(rl).setRegistryName(rl);
+	}
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<SoundEvent> event) {
-		TREE_CRACK_SMALL.setRegistryName(new ResourceLocation(ModConstants.MODID + ":entities.tree.crack_small"));
-		event.getRegistry().register(TREE_CRACK_SMALL);
-		TREE_CRACK_LARGE.setRegistryName(new ResourceLocation(ModConstants.MODID + ":entities.tree.crack_large"));
-		event.getRegistry().register(TREE_CRACK_LARGE);
-		TREE_LANDING.setRegistryName(new ResourceLocation(ModConstants.MODID + ":entities.tree.landing"));
-		event.getRegistry().register(TREE_LANDING);
+		event.getRegistry().registerAll(
+			FALLING_TREE_BIG_START,
+			FALLING_TREE_BIG_END,
+			FALLING_TREE_MEDIUM_START,
+			FALLING_TREE_MEDIUM_END,
+			FALLING_TREE_SMALL_END,
+			FALLING_TREE_SMALL_END_BARE,
+			FALLING_TREE_HIT_WATER,
+			FALLING_TREE_SMALL_HIT_WATER
+		);
 	}
-
 }

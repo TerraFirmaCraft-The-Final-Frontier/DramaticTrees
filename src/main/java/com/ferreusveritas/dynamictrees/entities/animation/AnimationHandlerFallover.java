@@ -1,12 +1,12 @@
 package com.ferreusveritas.dynamictrees.entities.animation;
 
 import com.ferreusveritas.dynamictrees.ModConfigs;
-import com.ferreusveritas.dynamictrees.ModSoundEvents;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
 import com.ferreusveritas.dynamictrees.api.network.MapSignal;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
 import com.ferreusveritas.dynamictrees.systems.nodemappers.NodeExtState;
+import com.ferreusveritas.dynamictrees.trees.Species;
 import com.ferreusveritas.dynamictrees.trees.TreeCactus;
 import com.ferreusveritas.dynamictrees.util.BranchDestructionData;
 import com.google.common.base.Predicates;
@@ -20,6 +20,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -43,6 +44,10 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 
 		float fallSpeed = 0;
 		int bounces = 0;
+		long touchedGroundTick = -1;
+		boolean startSoundPlayed = false;
+		boolean fallThroughWaterSoundPlayed = false;
+		boolean endSoundPlayed = false;
 		HashSet<EntityLivingBase> entitiesHit = new HashSet<>();//A record of the entities that have taken damage to ensure they are only damaged a single time
 
 	}
@@ -62,11 +67,7 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		}
 		
 		if (!(entity.getDestroyData().species.getFamily() instanceof TreeCactus)) {//Exempt cacti
-			if (entity.getDestroyData().trunkHeight < 8) {//Play sound according to tree size
-				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_SMALL, SoundCategory.AMBIENT, 0.8F, 1.0F);
-			} else {
-				entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_CRACK_LARGE, SoundCategory.AMBIENT, 0.8F, 1.0F);
-			}
+			playStartSound(entity);
 		}
 	}
 
@@ -103,17 +104,19 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 					entity.posY = collBox.maxY;
 					entity.prevPosY = entity.posY;
 					entity.onGround = true;
+					if (getData(entity).touchedGroundTick == -1)
+						getData(entity).touchedGroundTick = entity.ticksExisted;
 				}
 			}
 		}
 
-		if (fallSpeed > 0 && testCollision(entity)) {
+		if (entity.ticksExisted - getData(entity).touchedGroundTick > 10 && fallSpeed > 0 && testCollision(entity)) {
 			float fallSpeedPrev = fallSpeed;
 			addRotation(entity, -fallSpeed);//pull back to before the collision
 			getData(entity).bounces++;
 			fallSpeed *= -AnimationConstants.TREE_ELASTICITY;//bounce with elasticity
 			entity.landed = Math.abs(fallSpeed) < 0.02f;//The entity has landed if after a bounce it has little velocity
-			if(fallSpeedPrev > 0.1F && !entity.world.isRemote) entity.world.playSound(null, entity.getPosition(), ModSoundEvents.TREE_LANDING, SoundCategory.AMBIENT, (Math.min(1.5F, fallSpeedPrev) / 1.5F) * 0.6F + 0.1F, entity.world.rand.nextFloat() * 0.2F + 0.6F);
+			if (fallSpeedPrev > 0.1F) playEndSound(entity);
 		}
 
 		//Crush living things with clumsy dead trees
@@ -140,6 +143,36 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 		}
 
 		getData(entity).fallSpeed = fallSpeed;
+	}
+
+	protected void playStartSound(EntityFallingTree entity) {
+		if (!getData(entity).startSoundPlayed && !entity.world.isRemote) {
+			BranchDestructionData destroyData = entity.getDestroyData();
+			Species species = destroyData.species;
+			SoundEvent sound = species.getFallingTreeStartSound(destroyData.woodVolume, destroyData.getNumLeaves() > 0);
+			entity.playSound(sound, 1.0F, species.getFallingTreePitch(destroyData.woodVolume));
+			getData(entity).startSoundPlayed = true;
+		}
+	}
+
+	protected void playEndSound(EntityFallingTree entity) {
+		if (!getData(entity).endSoundPlayed && !entity.world.isRemote) {
+			BranchDestructionData destroyData = entity.getDestroyData();
+			Species species = destroyData.species;
+			SoundEvent sound = species.getFallingTreeEndSound(destroyData.woodVolume, destroyData.getNumLeaves() > 0);
+			entity.playSound(sound, 1.5F, species.getFallingTreePitch(destroyData.woodVolume));
+			getData(entity).endSoundPlayed = true;
+		}
+	}
+
+	protected void playFallThroughWaterSound(EntityFallingTree entity) {
+		if (!getData(entity).fallThroughWaterSoundPlayed && !entity.world.isRemote) {
+			BranchDestructionData destroyData = entity.getDestroyData();
+			Species species = destroyData.species;
+			SoundEvent sound = species.getFallingTreeHitWaterSound(destroyData.woodVolume, destroyData.getNumLeaves() > 0);
+			entity.playSound(sound, 2.0F, 1.0F);
+			getData(entity).fallThroughWaterSoundPlayed = true;
+		}
 	}
 
 	/**
@@ -175,6 +208,10 @@ public class AnimationHandlerFallover implements IAnimationHandler {
 			float half = MathHelper.clamp(tex * (segment + 1) * 2, tex, maxRadius);
 			AxisAlignedBB testBB = new AxisAlignedBB(segX - half, segY - half, segZ - half, segX + half, segY + half, segZ + half);
 			
+			if (entity.world.containsAnyLiquid(testBB)) {
+				playFallThroughWaterSound(entity);
+			}
+
 			if (!entity.world.getCollisionBoxes(entity, testBB).isEmpty()) {
 				if (ModConfigs.enableFallingTreeDomino) {
 					int solidBlock = 0;
