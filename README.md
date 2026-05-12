@@ -7,9 +7,12 @@ Minecraft Forge mod providing dynamic trees that progressively grow from seed to
 This branch is for the 1.12.2 version of Minecraft.
 
 ### Links
+
 - [Downloads](https://minecraft.curseforge.com/projects/dramatictrees/files)
+- [Discord](https://acgam.ing/discord)
 
 ### Compiling
+
 * Clone the repository.
 * Open a command prompt/terminal to the repository directory.
 * Run `gradlew build` on Windows, or `./gradlew build` for macOS or Linux.
