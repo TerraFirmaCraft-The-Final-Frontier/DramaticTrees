@@ -1,16 +1,16 @@
 [
-{
-  "modid": "dynamictrees",
-  "name": "Dramatic Trees",
-  "description": "Dynamic Trees with a little bit more edge.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "https://minecraft.curseforge.com/projects/dramatictrees",
-  "updateUrl": "https://github.com/TerraFirmaCraft-The-Final-Frontier/DramaticTreesVersionInfo/blob/master/DynamicTrees.json?raw=true?raw=true",
-  "authorList": ["Lylythii", "ACGaming", "FerreusVeritas"],
-  "credits": "",
-  "logoFile": "assets/dynamictrees/logo.png",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "dynamictrees",
+    "name": "Dramatic Trees",
+    "description": "Dynamic Trees with extra edge.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/dramatictrees",
+    "authorList": [
+      "Lylythii",
+      "ACGaming",
+      "FerreusVeritas"
+    ],
+    "logoFile": "assets/dynamictrees/logo.png"
+  }
 ]
