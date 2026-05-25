@@ -63,6 +63,6 @@ public class ModConstants {
 	public static final String CLIENT_PROXY = "com.ferreusveritas.dynamictrees.proxy.ClientProxy";
 	public static final String COMMON_PROXY = "com.ferreusveritas.dynamictrees.proxy.CommonProxy";
 
-	public static final String UPDATE_CHECKER = "https://github.com/DynamicTreesTeam/DynamicTreesVersionInfo/blob/master/DynamicTrees.json?raw=true";
+	public static final String GUI_FACTORY = "com.ferreusveritas.dynamictrees.util.GuiFactory";
 
 }

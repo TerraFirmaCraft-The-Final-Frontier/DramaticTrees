@@ -11,6 +11,7 @@ import java.util.HashSet;
 public class ModConfigs {
 
 	public static File configDirectory;
+	public static Configuration config;
 
 	public static float seedDropRate;
 	public static float seedPlantRate;
@@ -63,8 +64,14 @@ public class ModConfigs {
 
 		configDirectory = event.getModConfigurationDirectory();
 
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
+
+		loadConfig();
+
+	}
+
+	public static void loadConfig() {
 
 		//Seeds
 		seedDropRate = config.getFloat("dropRate", "seeds", 0, 0, 1, "The rate at which seeds voluntarily drop from branches");
