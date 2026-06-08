@@ -5,6 +5,7 @@ import com.ferreusveritas.dynamictrees.api.treedata.ILeavesProperties;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranchMushroom;
 import com.ferreusveritas.dynamictrees.blocks.CapProperties;
+import com.ferreusveritas.dynamictrees.util.BranchDestructionData;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TreeFamilyMushroom extends TreeFamily {
@@ -124,6 +126,33 @@ public class TreeFamilyMushroom extends TreeFamily {
 
 	public boolean isCompatibleCap(SpeciesMushroom species, IBlockState state, World world, BlockPos pos) {
 		return species.getCapProperties().isPartOfCap(state);
+	}
+
+	@Override
+	public HashMap<BlockPos, IBlockState> getFellingLeavesClusters(BranchDestructionData destructionData) {
+		if (!(destructionData.species instanceof SpeciesMushroom)) {
+			return null;
+		}
+
+		SpeciesMushroom species = (SpeciesMushroom) destructionData.species;
+		CapProperties capProperties = species.getCapProperties();
+		HashMap<BlockPos, IBlockState> map = new HashMap<>();
+
+		for (int i = 0; i < destructionData.getNumLeaves(); i++) {
+			if (!destructionData.isMushroomCap(i)) {
+				continue;
+			}
+
+			IBlockState state;
+			if (destructionData.isMushroomCapCenter(i)) {
+				state = capProperties.getDynamicCapState(true, destructionData.getMushroomCapAge(i));
+			} else {
+				state = capProperties.getDynamicCapState(destructionData.getMushroomCapDistance(i), destructionData.getMushroomCapDirections(i));
+			}
+			map.put(destructionData.getLeavesRelPos(i), state);
+		}
+
+		return map.isEmpty() ? null : map;
 	}
 
 }

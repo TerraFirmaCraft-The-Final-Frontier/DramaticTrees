@@ -4,7 +4,10 @@ import com.ferreusveritas.dynamictrees.api.TreeRegistry;
 import com.ferreusveritas.dynamictrees.api.treedata.ILeavesProperties;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch.BlockItemStack;
+import com.ferreusveritas.dynamictrees.blocks.BlockDynamicCap;
+import com.ferreusveritas.dynamictrees.blocks.BlockDynamicCapCenter;
 import com.ferreusveritas.dynamictrees.blocks.BlockDynamicLeaves;
+import com.ferreusveritas.dynamictrees.trees.SpeciesMushroom;
 import com.ferreusveritas.dynamictrees.trees.Species;
 import com.google.common.collect.AbstractIterator;
 import net.minecraft.block.Block;
@@ -21,6 +24,8 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 
 public class BranchDestructionData {
+
+	private static final int MUSHROOM_CAP_FLAG = 0x80000000;
 
 	public final Species species; // The species of the tree that was harvested
 	public final int[] destroyedBranchesRadiusPosition; // Encoded branch radius and relative positions
@@ -220,6 +225,9 @@ public class BranchDestructionData {
 			if (block instanceof BlockDynamicLeaves && bounds.inBounds(relPos)) { // Place comfortable limits on the system
 				posData[index] = encodeLeaves(relPos, (BlockDynamicLeaves) block, state);
 				blockIndexData[index++] = encodeLeavesBlocks(state, this.species);
+			} else if (block instanceof BlockDynamicCap && this.species instanceof SpeciesMushroom && bounds.inBounds(relPos)) {
+				posData[index] = encodeMushroomCap(relPos, state);
+				blockIndexData[index++] = encodeMushroomCapBlocks(state);
 			}
 		}
 
@@ -235,6 +243,28 @@ public class BranchDestructionData {
 
 	private int encodeLeavesBlocks(IBlockState state, Species species) {
 		return species.getLeavesBlockIndex(state);
+	}
+
+	private int encodeMushroomCap(BlockPos relPos, IBlockState state) {
+		int prop = state.getBlock() instanceof BlockDynamicCapCenter ? 0 : state.getValue(BlockDynamicCap.DISTANCE);
+		return MUSHROOM_CAP_FLAG | ((prop & 0x7F) << 24) | encodeRelBlockPos(relPos);
+	}
+
+	private int encodeMushroomCapBlocks(IBlockState state) {
+		Block block = state.getBlock();
+		int code = MUSHROOM_CAP_FLAG;
+		if (block instanceof BlockDynamicCapCenter) {
+			code |= 1;
+			code |= (state.getValue(BlockDynamicCapCenter.AGE) & 0x7F) << 1;
+		} else if (block instanceof BlockDynamicCap) {
+			boolean[] directions = BlockDynamicCap.getDirectionValues(state);
+			for (int i = 0; i < directions.length; i++) {
+				if (directions[i]) {
+					code |= 1 << (i + 1);
+				}
+			}
+		}
+		return code;
 	}
 
 	public int getNumLeaves() {
@@ -257,11 +287,42 @@ public class BranchDestructionData {
 		return (encoded >> 24) & 0x0F;
 	}
 
+	public boolean isMushroomCap(int index) {
+		return (destroyedLeaves[index] & MUSHROOM_CAP_FLAG) != 0;
+	}
+
+	public int getMushroomCapDistance(int index) {
+		return (destroyedLeaves[index] >> 24) & 0x7F;
+	}
+
+	public boolean isMushroomCapCenter(int index) {
+		return (destroyedLeavesBlockIndex[index] & 1) == 1;
+	}
+
+	public int getMushroomCapAge(int index) {
+		return (destroyedLeavesBlockIndex[index] >> 1) & 0x7F;
+	}
+
+	public boolean[] getMushroomCapDirections(int index) {
+		boolean[] directions = new boolean[6];
+		int encoded = destroyedLeavesBlockIndex[index];
+		for (int i = 0; i < directions.length; i++) {
+			directions[i] = ((encoded >> (i + 1)) & 1) == 1;
+		}
+		return directions;
+	}
+
 	public ILeavesProperties getLeavesProperties(int index) {
+		if (isMushroomCap(index)) {
+			return this.species.getLeavesProperties();
+		}
 		return this.species.getValidLeavesProperties(this.destroyedLeavesBlockIndex[index]);
 	}
 
 	public IBlockState getLeavesBlockState(int index) {
+		if (isMushroomCap(index)) {
+			return this.species.getLeavesProperties().getDynamicLeavesState();
+		}
 		return this.species.getValidLeavesBlock(this.destroyedLeavesBlockIndex[index]);
 	}
 

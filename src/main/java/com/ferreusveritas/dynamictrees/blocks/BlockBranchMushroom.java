@@ -71,10 +71,10 @@ public class BlockBranchMushroom extends BlockBranchThick {
 	@Override
 	protected void destroyLeaves(World world, BlockPos cutPos, Species species, List<BlockPos> endPoints, Map<BlockPos, IBlockState> destroyedLeaves, List<BlockItemStack> drops) {
 		super.destroyLeaves(world, cutPos, species, endPoints, destroyedLeaves, drops);
-		destroyMushroomCaps(world, cutPos, species, endPoints, drops);
+		destroyMushroomCaps(world, cutPos, species, endPoints, destroyedLeaves, drops);
 	}
 
-	protected void destroyMushroomCaps(World world, BlockPos cutPos, Species species, List<BlockPos> endPoints, List<BlockItemStack> drops) {
+	protected void destroyMushroomCaps(World world, BlockPos cutPos, Species species, List<BlockPos> endPoints, Map<BlockPos, IBlockState> destroyedLeaves, List<BlockItemStack> drops) {
 		if (world.isRemote || !(species instanceof SpeciesMushroom) || !(species.getFamily() instanceof TreeFamilyMushroom)) {
 			return;
 		}
@@ -102,6 +102,7 @@ public class BlockBranchMushroom extends BlockBranchThick {
 			IBlockState state = world.getBlockState(pos);
 			if (family.isCompatibleCap(mushroom, state, world, pos)) {
 				CapProperties cap = getCapProperties(state);
+				destroyedLeaves.put(pos.subtract(cutPos), state);
 				if (!cap.getMushroomItemStack(1).isEmpty() && world.rand.nextInt(10) == 0) {
 					drops.add(new BlockItemStack(cap.getMushroomItemStack(1), pos.subtract(cutPos)));
 				}
