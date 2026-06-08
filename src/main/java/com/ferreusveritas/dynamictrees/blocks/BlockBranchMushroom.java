@@ -75,15 +75,17 @@ public class BlockBranchMushroom extends BlockBranchThick {
 	}
 
 	protected void destroyMushroomCaps(World world, BlockPos cutPos, Species species, List<BlockPos> endPoints, List<BlockItemStack> drops) {
-		if (world.isRemote || endPoints.isEmpty() || !(species instanceof SpeciesMushroom) || !(species.getFamily() instanceof TreeFamilyMushroom)) {
+		if (world.isRemote || !(species instanceof SpeciesMushroom) || !(species.getFamily() instanceof TreeFamilyMushroom)) {
 			return;
 		}
 
 		SpeciesMushroom mushroom = (SpeciesMushroom) species;
 		TreeFamilyMushroom family = (TreeFamilyMushroom) species.getFamily();
 		List<BlockPos> capPositions = new ArrayList<>();
+		capPositions.add(cutPos);
 
 		for (BlockPos endPos : endPoints) {
+			capPositions.add(endPos);
 			BlockPos centerPos = endPos.up();
 			int age = BlockDynamicCapCenter.getCapAge(world, centerPos);
 			if (age >= 0) {
@@ -91,7 +93,7 @@ public class BlockBranchMushroom extends BlockBranchThick {
 			}
 		}
 
-		BlockBounds bounds = capPositions.isEmpty() ? null : new BlockBounds(capPositions).expand(1);
+		BlockBounds bounds = capPositions.isEmpty() ? null : new BlockBounds(capPositions).expand(mushroom.getMushroomShape().getMaxCapAge() + 2);
 		if (bounds == null) {
 			return;
 		}

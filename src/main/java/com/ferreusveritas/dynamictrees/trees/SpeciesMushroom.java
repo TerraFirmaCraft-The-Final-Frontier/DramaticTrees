@@ -79,6 +79,11 @@ public class SpeciesMushroom extends Species {
 	}
 
 	@Override
+	public boolean getRequiresTileEntity(World world, BlockPos pos) {
+		return true;
+	}
+
+	@Override
 	public int maxBranchRadius() {
 		return BlockBranchThick.RADMAX_THICK;
 	}
