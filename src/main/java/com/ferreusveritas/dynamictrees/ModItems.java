@@ -34,6 +34,7 @@ public class ModItems {
 		ArrayList<Item> treeItems = new ArrayList<Item>();
 		ModTrees.baseFamilies.forEach(tree -> tree.getRegisterableItems(treeItems));
 		ModTrees.dynamicCactus.getRegisterableItems(treeItems);
+		ModTrees.dynamicMushroom.getRegisterableItems(treeItems);
 
 		registry.registerAll(dendroPotion, dirtBucket, treeStaff);
 		registry.registerAll(treeItems.toArray(new Item[0]));

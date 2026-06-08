@@ -28,12 +28,14 @@ public class ModTrees {
 	public static final String JUNGLE = "jungle";
 	public static final String DARKOAK = "darkoak";
 	public static final String ACACIA = "acacia";
+	public static final String MUSHROOM = "mushroom";
 
 	public static final String CONIFER = "conifer";
 
 	public static ArrayList<TreeFamilyVanilla> baseFamilies = new ArrayList<>();
 	// keeping the cactus 'tree' out of baseTrees prevents automatic registration of seed/sapling conversion recipes, transformation potion recipes, and models
 	public static TreeCactus dynamicCactus;
+	public static TreeFamilyMushroom dynamicMushroom;
 
 	/**
 	 * Pay Attn! This should be run after the Dynamic Trees Mod has created it's Blocks and Items.  These trees depend
@@ -45,10 +47,8 @@ public class ModTrees {
 		baseFamilies.forEach(tree -> tree.registerSpecies(Species.REGISTRY));
 		dynamicCactus = new TreeCactus();
 		dynamicCactus.registerSpecies(Species.REGISTRY);
-
-		//Registers a fake species for generating mushrooms
-		Species.REGISTRY.register(new Mushroom(true));
-		Species.REGISTRY.register(new Mushroom(false));
+		dynamicMushroom = new TreeFamilyMushroom();
+		dynamicMushroom.registerSpecies(Species.REGISTRY);
 
 		for (TreeFamilyVanilla vanillaFamily : baseFamilies) {
 			IBlockState defaultSaplingState = Blocks.SAPLING.getDefaultState().withProperty(BlockSapling.TYPE, vanillaFamily.woodType);

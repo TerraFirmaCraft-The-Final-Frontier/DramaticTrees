@@ -147,6 +147,16 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomStateMapper(ModTrees.dynamicCactus.getDynamicBranch(), new StateMap.Builder().ignore(BlockBranchCactus.TRUNK, BlockBranchCactus.ORIGIN).build());
 		ModelHelper.regModel(ModTrees.dynamicCactus.getDynamicBranch());
 		ModelHelper.regModel(ModTrees.dynamicCactus.getCommonSpecies().getSeed());
+
+		//Register models for dynamic mushrooms
+		ModelHelper.regModel(ModTrees.dynamicMushroom.getDynamicBranch());
+		ModelHelper.regModel(ModTrees.dynamicMushroom);
+		ModelHelper.regModel(ModTrees.dynamicMushroom.getRedMushroom().getSeed());
+		ModelHelper.regModel(ModTrees.dynamicMushroom.getBrownMushroom().getSeed());
+		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.redCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE, BlockDynamicCap.DOWN, BlockDynamicCap.UP, BlockDynamicCap.NORTH, BlockDynamicCap.SOUTH, BlockDynamicCap.WEST, BlockDynamicCap.EAST).build());
+		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.redCap.getDynamicCapCenterBlock(), new StateMap.Builder().ignore(BlockDynamicCapCenter.AGE).build());
+		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.brownCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE, BlockDynamicCap.DOWN, BlockDynamicCap.UP, BlockDynamicCap.NORTH, BlockDynamicCap.SOUTH, BlockDynamicCap.WEST, BlockDynamicCap.EAST).build());
+		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.brownCap.getDynamicCapCenterBlock(), new StateMap.Builder().ignore(BlockDynamicCapCenter.AGE).build());
 		
 		//Special seed for apple
 		ModelHelper.regModel(Species.REGISTRY.getValue(new ResourceLocation(ModConstants.MODID, "apple")).getSeed());

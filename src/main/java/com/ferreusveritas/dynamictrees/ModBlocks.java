@@ -74,6 +74,7 @@ public class ModBlocks {
 		ArrayList<Block> treeBlocks = new ArrayList<Block>();
 		ModTrees.baseFamilies.forEach(tree -> tree.getRegisterableBlocks(treeBlocks));
 		ModTrees.dynamicCactus.getRegisterableBlocks(treeBlocks);
+		ModTrees.dynamicMushroom.getRegisterableBlocks(treeBlocks);
 		treeBlocks.addAll(LeavesPaging.getLeavesMapForModId(ModConstants.MODID).values());
 
 		registry.registerAll(
