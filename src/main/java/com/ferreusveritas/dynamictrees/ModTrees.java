@@ -49,6 +49,8 @@ public class ModTrees {
 		dynamicCactus.registerSpecies(Species.REGISTRY);
 		dynamicMushroom = new TreeFamilyMushroom();
 		dynamicMushroom.registerSpecies(Species.REGISTRY);
+		TreeRegistry.registerSaplingReplacer(Blocks.RED_MUSHROOM.getDefaultState(), dynamicMushroom.getRedMushroom());
+		TreeRegistry.registerSaplingReplacer(Blocks.BROWN_MUSHROOM.getDefaultState(), dynamicMushroom.getBrownMushroom());
 
 		for (TreeFamilyVanilla vanillaFamily : baseFamilies) {
 			IBlockState defaultSaplingState = Blocks.SAPLING.getDefaultState().withProperty(BlockSapling.TYPE, vanillaFamily.woodType);

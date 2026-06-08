@@ -1,18 +1,15 @@
 package com.ferreusveritas.dynamictrees.trees;
 
-import com.ferreusveritas.dynamictrees.ModBlocks;
 import com.ferreusveritas.dynamictrees.ModConstants;
 import com.ferreusveritas.dynamictrees.ModSoundEvents;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
 import com.ferreusveritas.dynamictrees.api.network.MapSignal;
-import com.ferreusveritas.dynamictrees.api.treedata.ITreePart;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
 import com.ferreusveritas.dynamictrees.blocks.BlockBranchThick;
 import com.ferreusveritas.dynamictrees.blocks.BlockRooty;
 import com.ferreusveritas.dynamictrees.blocks.CapProperties;
 import com.ferreusveritas.dynamictrees.event.SpeciesPostGenerationEvent;
 import com.ferreusveritas.dynamictrees.growthlogic.StraightLogic;
-import com.ferreusveritas.dynamictrees.items.Seed;
 import com.ferreusveritas.dynamictrees.systems.DirtHelper;
 import com.ferreusveritas.dynamictrees.systems.GrowSignal;
 import com.ferreusveritas.dynamictrees.systems.mushroomlogic.MushroomShape;
@@ -24,7 +21,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -97,12 +93,15 @@ public class SpeciesMushroom extends Species {
 		if (soilBlockState.getBlock() == Blocks.WATER) {
 			return false;
 		}
-		return super.isAcceptableSoil(soilBlockState);
+		return DirtHelper.isSoilRegistered(soilBlockState.getBlock());
 	}
 
 	@Override
 	public boolean isAcceptableSoil(World world, BlockPos pos, IBlockState soilBlockState) {
-		return world.getLight(pos.up()) <= maxLightForPlanting && isAcceptableSoil(soilBlockState);
+		if (!isAcceptableSoil(soilBlockState)) {
+			return false;
+		}
+		return super.isAcceptableSoil(soilBlockState) || world.getLight(pos.up()) <= maxLightForPlanting;
 	}
 
 	@Override

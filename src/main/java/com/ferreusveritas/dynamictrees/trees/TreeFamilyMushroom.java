@@ -8,8 +8,8 @@ import com.ferreusveritas.dynamictrees.blocks.CapProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -106,6 +106,10 @@ public class TreeFamilyMushroom extends TreeFamily {
 	@Override
 	public List<Item> getRegisterableItems(List<Item> itemList) {
 		super.getRegisterableItems(itemList);
+		itemList.add(new ItemBlock(redCap.getDynamicCapBlock()).setRegistryName(redCap.getDynamicCapBlock().getRegistryName()));
+		itemList.add(new ItemBlock(redCap.getDynamicCapCenterBlock()).setRegistryName(redCap.getDynamicCapCenterBlock().getRegistryName()));
+		itemList.add(new ItemBlock(brownCap.getDynamicCapBlock()).setRegistryName(brownCap.getDynamicCapBlock().getRegistryName()));
+		itemList.add(new ItemBlock(brownCap.getDynamicCapCenterBlock()).setRegistryName(brownCap.getDynamicCapCenterBlock().getRegistryName()));
 		brownMushroom.getSeed().ifValid(s -> itemList.add(s));
 		return itemList;
 	}

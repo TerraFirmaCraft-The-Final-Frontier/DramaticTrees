@@ -153,6 +153,10 @@ public class ClientProxy extends CommonProxy {
 		ModelHelper.regModel(ModTrees.dynamicMushroom);
 		ModelHelper.regModel(ModTrees.dynamicMushroom.getRedMushroom().getSeed());
 		ModelHelper.regModel(ModTrees.dynamicMushroom.getBrownMushroom().getSeed());
+		ModelHelper.regModel(ModTrees.dynamicMushroom.redCap.getDynamicCapBlock());
+		ModelHelper.regModel(ModTrees.dynamicMushroom.redCap.getDynamicCapCenterBlock());
+		ModelHelper.regModel(ModTrees.dynamicMushroom.brownCap.getDynamicCapBlock());
+		ModelHelper.regModel(ModTrees.dynamicMushroom.brownCap.getDynamicCapCenterBlock());
 		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.redCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE, BlockDynamicCap.DOWN, BlockDynamicCap.UP, BlockDynamicCap.NORTH, BlockDynamicCap.SOUTH, BlockDynamicCap.WEST, BlockDynamicCap.EAST).build());
 		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.redCap.getDynamicCapCenterBlock(), new StateMap.Builder().ignore(BlockDynamicCapCenter.AGE).build());
 		ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.brownCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE, BlockDynamicCap.DOWN, BlockDynamicCap.UP, BlockDynamicCap.NORTH, BlockDynamicCap.SOUTH, BlockDynamicCap.WEST, BlockDynamicCap.EAST).build());
