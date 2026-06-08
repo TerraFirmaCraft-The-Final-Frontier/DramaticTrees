@@ -29,6 +29,7 @@ public class ModConfigs {
 	public static float diseaseChance;
 	public static int maxBranchRotRadius;
 	public static boolean enableAppleTrees;
+	public static boolean enableDynamicMushrooms;
 
 	public static boolean isLeavesPassable;
 	public static boolean vanillaLeavesCollision;
@@ -91,6 +92,7 @@ public class ModConfigs {
 		diseaseChance = config.getFloat("diseaseChance", "trees", 0.0f, 0.0f, 1.0f, "The chance of a tree on depleted soil to die. 1/256(~0.004) averages to about 1 death every 16 minecraft days");
 		maxBranchRotRadius = config.getInt("maxBranchRotRadius", "trees", 8, 0, 24, "The maximum radius of a branch that is allowed to rot away. 8 = Full block size.  Set to 0 to prevent rotting");
 		enableAppleTrees = config.getBoolean("enableAppleTrees", "trees", true, "If enabled apple trees will be generated during worldgen and oak trees will not drop apples");
+		enableDynamicMushrooms = config.getBoolean("enableDynamicMushrooms", "trees", true, "If enabled red and brown mushrooms can be planted and replaced as Dynamic Mushrooms. Requires a restart.");
 
 		//Interaction
 		isLeavesPassable = config.getBoolean("isLeavesPassable", "interaction", false, "If enabled all leaves will be passable");
