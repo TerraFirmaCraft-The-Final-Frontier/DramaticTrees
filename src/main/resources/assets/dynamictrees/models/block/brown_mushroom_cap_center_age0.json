@@ -1,0 +1,8 @@
+{
+	"parent": "block/slab",
+	"textures": {
+		"bottom": "blocks/mushroom_block_inside",
+		"side": "blocks/mushroom_block_skin_brown",
+		"top": "blocks/mushroom_block_skin_brown"
+	}
+}

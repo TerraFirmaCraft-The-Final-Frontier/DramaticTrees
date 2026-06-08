@@ -1,5 +1,16 @@
 {
-	"variants": {
-		"normal": { "model": "dynamictrees:red_mushroom_cap" }
-	}
+	"multipart": [
+		{ "when": { "north": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face" } },
+		{ "when": { "north": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face" } },
+		{ "when": { "east": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face", "y": 90, "uvlock": true } },
+		{ "when": { "east": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face", "y": 90, "uvlock": true } },
+		{ "when": { "south": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face", "y": 180, "uvlock": true } },
+		{ "when": { "south": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face", "y": 180, "uvlock": true } },
+		{ "when": { "west": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face", "y": 270, "uvlock": true } },
+		{ "when": { "west": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face", "y": 270, "uvlock": true } },
+		{ "when": { "up": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face", "x": 270, "uvlock": true } },
+		{ "when": { "up": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face", "x": 270, "uvlock": true } },
+		{ "when": { "down": "true" }, "apply": { "model": "dynamictrees:red_mushroom_cap_face", "x": 90, "uvlock": true } },
+		{ "when": { "down": "false" }, "apply": { "model": "dynamictrees:mushroom_cap_inside_face", "x": 90, "uvlock": true } }
+	]
 }

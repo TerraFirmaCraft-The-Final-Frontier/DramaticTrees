@@ -147,7 +147,7 @@ public class BlockDynamicCap extends Block implements ITreePart {
 				continue;
 			}
 			IBlockState offState = world.getBlockState(offPos);
-			if ((offState.getBlock() instanceof BlockDynamicCap && offState.getValue(DISTANCE) == distance - 1)
+			if ((offState.getBlock() == this && offState.getValue(DISTANCE) == distance - 1)
 				|| (distance == 1 && offState.getBlock() == properties.getDynamicCapCenterBlock())) {
 				supportFound = true;
 				break;
