@@ -65,7 +65,7 @@ public class SafeChunkBounds {
 			for (EnumFacing dir : EnumFacing.HORIZONTALS) {
 				boolean validDir = false;
 				if ((t.borders & (1 << dir.getIndex())) != 0) {
-					BlockBounds adjTile = chunkBounds[t.index + dir.getFrontOffsetX() + dir.getFrontOffsetZ() * 4];
+					BlockBounds adjTile = chunkBounds[t.index + dir.getXOffset() + dir.getZOffset() * 4];
 					validDir = adjTile != BlockBounds.INVALID;
 				}
 				if (!validDir) {

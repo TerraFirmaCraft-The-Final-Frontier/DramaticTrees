@@ -25,7 +25,7 @@ public class FeatureGenUndergrowth implements IPostGenFeature {
 	public boolean postGeneration(World world, BlockPos rootPos, Species species, Biome biome, int radius, List<BlockPos> endPoints, SafeChunkBounds safeBounds, IBlockState initialDirtState) {
 		if (safeBounds != SafeChunkBounds.ANY && radius > 2) {//worldgen
 
-			Vec3d vTree = new Vec3d(rootPos).addVector(0.5, 0.5, 0.5);
+			Vec3d vTree = new Vec3d(rootPos).add(0.5, 0.5, 0.5);
 
 			for (int i = 0; i < 2; i++) {
 

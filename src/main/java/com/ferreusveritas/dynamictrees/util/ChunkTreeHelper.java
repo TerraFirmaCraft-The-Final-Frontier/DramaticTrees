@@ -129,7 +129,7 @@ public class ChunkTreeHelper {
 	}
 	
 	public static BlockBounds getEffectiveBlockBounds(World world, ChunkPos cPos, int radius) {
-		Chunk chunk = world.getChunkFromChunkCoords(cPos.x, cPos.z);
+		Chunk chunk = world.getChunk(cPos.x, cPos.z);
 		BlockBounds bounds = new BlockBounds(world, cPos);
 		
 		bounds.shrink(EnumFacing.UP, (world.getHeight() - 1) - (chunk.getTopFilledSegment() + 16));

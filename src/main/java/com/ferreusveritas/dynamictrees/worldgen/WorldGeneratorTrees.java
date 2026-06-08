@@ -81,7 +81,7 @@ public class WorldGeneratorTrees implements IWorldGenerator {
 
 		protected BlockPos findOverworldGround(World world, BlockPos start) {
 
-			Chunk chunk = world.getChunkFromBlockCoords(start);//We'll use a chunk for the search so we don't have to keep looking up the chunk for every block
+			Chunk chunk = world.getChunk(start);//We'll use a chunk for the search so we don't have to keep looking up the chunk for every block
 
 			MutableBlockPos mPos = new MutableBlockPos(world.getHeight(start)).move(EnumFacing.UP, 2);//Mutable allows us to change the test position easily
 			while (inOverworldRange(mPos)) {

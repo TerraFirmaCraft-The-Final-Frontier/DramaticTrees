@@ -69,7 +69,7 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 
 	public BlockBranch(Material material, String name) {
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setHarvestLevel("axe", 0);
 	}
@@ -490,7 +490,7 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 	public RayTraceResult playerRayTrace(EntityLivingBase entity, double blockReachDistance, float partialTicks) {
 		Vec3d vec3d = entity.getPositionEyes(partialTicks);
 		Vec3d vec3d1 = entity.getLook(partialTicks);
-		Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
+		Vec3d vec3d2 = vec3d.add(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
 		return entity.world.rayTraceBlocks(vec3d, vec3d2, false, false, true);
 	}
 
@@ -635,7 +635,7 @@ public abstract class BlockBranch extends Block implements ITreePart, IFutureBre
 	// We do not allow the tree branches to be pushed by a piston for reasons that should be obvious if you
 	// are paying attention.
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
+	public EnumPushReaction getPushReaction(IBlockState state) {
 		return EnumPushReaction.BLOCK;
 	}
 

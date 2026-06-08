@@ -58,9 +58,9 @@ public class AnimationHandlerPhysics implements IAnimationHandler {
 		getData(entity).rotYaw = (random.nextFloat() - 0.5f) * 4 / inertialMass;
 
 		EnumFacing cutDir = entity.getDestroyData().cutDir;
-		entity.motionX += cutDir.getOpposite().getFrontOffsetX() * 0.1;
-		entity.motionY += cutDir.getOpposite().getFrontOffsetY() * 0.1;
-		entity.motionZ += cutDir.getOpposite().getFrontOffsetZ() * 0.1;
+		entity.motionX += cutDir.getOpposite().getXOffset() * 0.1;
+		entity.motionY += cutDir.getOpposite().getYOffset() * 0.1;
+		entity.motionZ += cutDir.getOpposite().getZOffset() * 0.1;
 
 		EntityFallingTree.standardDropLeavesPayLoad(entity);//Seeds and stuff fall out of the tree before it falls over
 	}

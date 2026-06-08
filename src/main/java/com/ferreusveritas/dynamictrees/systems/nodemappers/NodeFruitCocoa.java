@@ -32,7 +32,7 @@ public class NodeFruitCocoa implements INodeInspector {
 				BlockBranch branch = TreeHelper.getBranch(blockState);
 				if (branch != null && branch.getRadius(blockState) == 8) {
 					int side = (hashCode % 4) + 2;
-					EnumFacing dir = EnumFacing.getFront(side);
+					EnumFacing dir = EnumFacing.byIndex(side);
 					BlockPos deltaPos = pos.offset(dir);
 					if (world.isAirBlock(deltaPos)) {
 						IBlockState cocoaState = ModBlocks.blockFruitCocoa.getStateForPlacement(world, deltaPos, dir, 0, 0, 0, 0, null);

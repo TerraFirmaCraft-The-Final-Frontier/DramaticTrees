@@ -12,7 +12,7 @@ public class ModTabs {
 	public static final CreativeTabs dynamicTreesTab = new CreativeTabs(ModConstants.MODID) {
 		@SideOnly(Side.CLIENT)
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack createIcon() {
 			return TreeRegistry.findSpeciesSloppy(BlockPlanks.EnumType.OAK.getName()).getSeedStack(1);
 		}
 	};

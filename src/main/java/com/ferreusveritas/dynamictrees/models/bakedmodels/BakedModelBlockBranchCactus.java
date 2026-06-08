@@ -68,13 +68,13 @@ public class BakedModelBlockBranchCactus implements IBakedModel {
 		// Work in double units(*2)
 		int dradius = radius * 2;
 		int halfSize = (16 - dradius) / 2;
-		int halfSizeX = dir.getFrontOffsetX() != 0 ? halfSize : dradius;
-		int halfSizeY = dir.getFrontOffsetY() != 0 ? halfSize : dradius;
-		int halfSizeZ = dir.getFrontOffsetZ() != 0 ? halfSize : dradius;
+		int halfSizeX = dir.getXOffset() != 0 ? halfSize : dradius;
+		int halfSizeY = dir.getYOffset() != 0 ? halfSize : dradius;
+		int halfSizeZ = dir.getZOffset() != 0 ? halfSize : dradius;
 		int move = 16 - halfSize;
-		int centerX = 16 + (dir.getFrontOffsetX() * move);
-		int centerY = 16 + (dir.getFrontOffsetY() * move);
-		int centerZ = 16 + (dir.getFrontOffsetZ() * move);
+		int centerX = 16 + (dir.getXOffset() * move);
+		int centerY = 16 + (dir.getYOffset() * move);
+		int centerZ = 16 + (dir.getZOffset() * move);
 
 		Vector3f posFrom = new Vector3f((centerX - halfSizeX) / 2, (centerY - halfSizeY) / 2, (centerZ - halfSizeZ) / 2);
 		Vector3f posTo = new Vector3f((centerX + halfSizeX) / 2, (centerY + halfSizeY) / 2, (centerZ + halfSizeZ) / 2);

@@ -76,7 +76,7 @@ public class BlockRooty extends Block implements ITreePart, ITileEntityProvider,
 		super(material);
 		this.hasTileEntity = isTileEntity;
 		setRegistryName(name);
-		setUnlocalizedName(getRegistryName().toString());
+		setTranslationKey(getRegistryName().toString());
 		setSoundType(SoundType.GROUND);
 		setDefaultState(this.blockState.getBaseState().withProperty(LIFE, 15));
 		setTickRandomly(true);
@@ -416,7 +416,7 @@ public class BlockRooty extends Block implements ITreePart, ITileEntityProvider,
 	}
 
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
+	public EnumPushReaction getPushReaction(IBlockState state) {
 		return EnumPushReaction.BLOCK;
 	}
 

@@ -70,7 +70,7 @@ public class BlockBranchCactus extends BlockBranch {
 	 */
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing rootDir = EnumFacing.getFront((meta & 7) % 6);
+		EnumFacing rootDir = EnumFacing.byIndex((meta & 7) % 6);
 		boolean trunk = rootDir == EnumFacing.UP;
 
 		return this.getDefaultState().withProperty(ORIGIN, trunk ? EnumFacing.DOWN : rootDir).withProperty(TRUNK, trunk);
@@ -137,7 +137,7 @@ public class BlockBranchCactus extends BlockBranch {
 	///////////////////////////////////////////
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 
@@ -157,7 +157,7 @@ public class BlockBranchCactus extends BlockBranch {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
@@ -251,11 +251,11 @@ public class BlockBranchCactus extends BlockBranch {
 			if (getSideConnectionRadius(blockAccess, pos, thisRadius, dir) > 0) {
 				connectionMade = true;
 				numConnections++;
-				aabb = aabb.expand(dir.getFrontOffsetX() * gap, dir.getFrontOffsetY() * gap, dir.getFrontOffsetZ() * gap);
+				aabb = aabb.expand(dir.getXOffset() * gap, dir.getYOffset() * gap, dir.getZOffset() * gap);
 			}
 		}
 		if (!state.getValue(TRUNK) && numConnections == 1 && state.getValue(ORIGIN).getAxis().isHorizontal()) {
-			aabb = aabb.expand(EnumFacing.UP.getFrontOffsetX() * gap, EnumFacing.UP.getFrontOffsetY() * gap, EnumFacing.UP.getFrontOffsetZ() * gap);
+			aabb = aabb.expand(EnumFacing.UP.getXOffset() * gap, EnumFacing.UP.getYOffset() * gap, EnumFacing.UP.getZOffset() * gap);
 		}
 		if (connectionMade) {
 			return aabb.offset(0.5, 0.5, 0.5);
@@ -275,7 +275,7 @@ public class BlockBranchCactus extends BlockBranch {
 				double radius = MathHelper.clamp(connRadius, 1, thisRadius) / 16.0;
 				double gap = 0.5 - radius;
 				AxisAlignedBB aabb = new AxisAlignedBB(0, 0, 0, 0, 0, 0).grow(radius);
-				aabb = aabb.offset(dir.getFrontOffsetX() * gap, dir.getFrontOffsetY() * gap, dir.getFrontOffsetZ() * gap).offset(0.5, 0.5, 0.5);
+				aabb = aabb.offset(dir.getXOffset() * gap, dir.getYOffset() * gap, dir.getZOffset() * gap).offset(0.5, 0.5, 0.5);
 				addCollisionBoxToList(pos, entityBox, collidingBoxes, aabb);
 			}
 		}
@@ -283,7 +283,7 @@ public class BlockBranchCactus extends BlockBranch {
 			double radius = MathHelper.clamp(4, 1, thisRadius) / 16.0;
 			double gap = 0.5 - radius;
 			AxisAlignedBB aabb = new AxisAlignedBB(0, 0, 0, 0, 0, 0).grow(radius);
-			aabb = aabb.offset(EnumFacing.UP.getFrontOffsetX() * gap, EnumFacing.UP.getFrontOffsetY() * gap, EnumFacing.UP.getFrontOffsetZ() * gap).offset(0.5, 0.5, 0.5);
+			aabb = aabb.offset(EnumFacing.UP.getXOffset() * gap, EnumFacing.UP.getYOffset() * gap, EnumFacing.UP.getZOffset() * gap).offset(0.5, 0.5, 0.5);
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, aabb);
 		}
 

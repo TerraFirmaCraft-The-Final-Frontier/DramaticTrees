@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class JsonHelper {
 
 	public static JsonElement load(ResourceLocation jsonLocation) {
-		String filename = "assets/" + jsonLocation.getResourceDomain() + "/" + jsonLocation.getResourcePath();
+		String filename = "assets/" + jsonLocation.getNamespace() + "/" + jsonLocation.getPath();
 		InputStream in = new LeavesPaging().getClass().getClassLoader().getResourceAsStream(filename);
 		if (in == null) {
 			Logger.getLogger(ModConstants.MODID).log(Level.SEVERE, "Could not open resource " + filename);

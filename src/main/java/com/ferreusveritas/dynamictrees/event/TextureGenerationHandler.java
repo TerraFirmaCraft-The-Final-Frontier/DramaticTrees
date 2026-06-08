@@ -24,7 +24,7 @@ public class TextureGenerationHandler {
 		private final ResourceLocation alternate;
 
 		public DualResourceLocation(ResourceLocation primary, ResourceLocation alternate) {
-			super(primary.getResourceDomain(), primary.getResourcePath());
+			super(primary.getNamespace(), primary.getPath());
 			this.alternate = alternate;
 		}
 
@@ -35,7 +35,7 @@ public class TextureGenerationHandler {
 	}
 
 	public static ResourceLocation addRingTextureLocation(ResourceLocation ringsRes) {
-		ResourceLocation outputRes = new ResourceLocation(ringsRes.getResourceDomain(), ringsRes.getResourcePath() + "_thick");
+		ResourceLocation outputRes = new ResourceLocation(ringsRes.getNamespace(), ringsRes.getPath() + "_thick");
 		thickRingTextures.put(ringsRes, outputRes);
 		return outputRes;
 	}
@@ -52,7 +52,7 @@ public class TextureGenerationHandler {
 				continue;
 			}
 
-			ResourceLocation textureLocation = new ResourceLocation(entry.getValue().getResourceDomain(), String.format("%s/%s%s", event.getMap().getBasePath(), entry.getValue().getResourcePath(), ".png"));
+			ResourceLocation textureLocation = new ResourceLocation(entry.getValue().getNamespace(), String.format("%s/%s%s", event.getMap().getBasePath(), entry.getValue().getPath(), ".png"));
 
 			IResource resource;
 			try {

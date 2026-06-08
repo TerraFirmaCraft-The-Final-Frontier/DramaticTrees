@@ -71,7 +71,7 @@ public class TreeSpruce extends TreeFamilyVanilla {
 		private static final String speciesName = "megaspruce";
 
 		SpeciesMegaSpruce(TreeFamily treeFamily) {
-			super(new ResourceLocation(treeFamily.getName().getResourceDomain(), speciesName), treeFamily);
+			super(new ResourceLocation(treeFamily.getName().getNamespace(), speciesName), treeFamily);
 			setBasicGrowingParameters(0.25f, 24.0f, 7, 5, 0.9f);
 			setGrowthLogicKit(new ConiferLogic(5.0f));
 

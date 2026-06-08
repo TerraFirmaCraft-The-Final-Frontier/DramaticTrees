@@ -65,7 +65,7 @@ public class BakedModelSapling implements IBakedModel {
 			species.saplingModelId = modelId;
 			if (species != Species.NULLSPECIES) {
 				try {
-					IModel model = ModelLoaderRegistry.getModel(new ResourceLocation(resLoc.getResourceDomain(), "block/saplings/" + resLoc.getResourcePath()));
+					IModel model = ModelLoaderRegistry.getModel(new ResourceLocation(resLoc.getNamespace(), "block/saplings/" + resLoc.getPath()));
 					if (model != null) {
 						modelMap[modelId] = model.bake(state, format, bakedTextureGetter);
 					}

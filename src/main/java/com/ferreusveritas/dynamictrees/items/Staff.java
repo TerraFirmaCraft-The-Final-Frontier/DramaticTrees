@@ -56,7 +56,7 @@ public class Staff extends Item {
 
 	public Staff(String name) {
 		setRegistryName(name);
-		setUnlocalizedName(getRegistryName().toString());
+		setTranslationKey(getRegistryName().toString());
 		setMaxStackSize(1);
 		setHarvestLevel("axe", 3);
 		setCreativeTab(ModTabs.dynamicTreesTab);

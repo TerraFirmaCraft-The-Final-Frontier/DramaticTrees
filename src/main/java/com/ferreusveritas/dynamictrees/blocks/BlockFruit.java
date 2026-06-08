@@ -65,7 +65,7 @@ public class BlockFruit extends Block implements IGrowable {
 		super(Material.PLANTS);
 		setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
 		setRegistryName(name);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setTickRandomly(true);
 		setHardness(0.3f);
 	}

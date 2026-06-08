@@ -74,7 +74,7 @@ public class CoordUtils {
 	}
 
 	public static EnumFacing getRandomDir(Random rand) {
-		return EnumFacing.getFront(2 + rand.nextInt(4));//Return NSWE
+		return EnumFacing.byIndex(2 + rand.nextInt(4));//Return NSWE
 	}
 
 	/**
@@ -119,12 +119,12 @@ public class CoordUtils {
 		float deltaYaw = (world.rand.nextFloat() * spreadHor * 2) - spreadHor;
 		float deltaPitch = (world.rand.nextFloat() * -spreadVer);// must be greater than -90 degrees(and less than 90) for the tangent function.
 		vOut = vOut.normalize(). //Normalize to unit vector
-			addVector(0, Math.tan(Math.toRadians(deltaPitch)), 0). //Pitch the angle downward by 0 to spreadVer degrees
+			add(0, Math.tan(Math.toRadians(deltaPitch)), 0). //Pitch the angle downward by 0 to spreadVer degrees
 			normalize(). //Re-normalize to unit vector
 			rotateYaw((float) Math.toRadians(deltaYaw)). //Vary the yaw by +/- spreadHor
 			scale(distance); //Vary the view distance
 
-		Vec3d branchVec = new Vec3d(branchPos).addVector(0.5, 0.5, 0.5);//Get the vector of the middle of the branch block
+		Vec3d branchVec = new Vec3d(branchPos).add(0.5, 0.5, 0.5);//Get the vector of the middle of the branch block
 		Vec3d vantageVec = branchVec.add(vOut);//Make a vantage point to look at the branch
 		BlockPos vantagePos = new BlockPos(vantageVec);//Convert Vector to BlockPos for testing
 
