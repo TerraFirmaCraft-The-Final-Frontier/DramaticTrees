@@ -1,5 +1,5 @@
 {
-	"parent": "block/slab",
+	"parent": "block/half_slab",
 	"textures": {
 		"bottom": "blocks/mushroom_block_inside",
 		"side": "blocks/mushroom_block_skin_red",

@@ -265,7 +265,7 @@ public class BlockDynamicCap extends Block implements ITreePart {
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return state.getValue(getPropertyFor(side));
+		return true;
 	}
 
 	private PropertyBool getPropertyFor(EnumFacing face) {
