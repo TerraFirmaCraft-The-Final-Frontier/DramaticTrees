@@ -51,10 +51,10 @@ public class ThickRingTextureAtlasSprite extends TextureAtlasSprite {
 		}
 
 		//A basic check that fits 80% of the time.  Usually the ringed texture's resource ends in "top" e.g. "log_oak_top"
-		if (baseRingLocation.getResourcePath().endsWith("top")) {
+		if (baseRingLocation.getPath().endsWith("top")) {
 			return baseRingLocation;
 		}
-		if (baseRingLocationAlternate.getResourcePath().endsWith("top")) {
+		if (baseRingLocationAlternate.getPath().endsWith("top")) {
 			return baseRingLocationAlternate;
 		}
 
@@ -164,16 +164,16 @@ public class ThickRingTextureAtlasSprite extends TextureAtlasSprite {
 			for (EnumFacing dir : EnumFacing.HORIZONTALS) { //SWNE
 				EnumFacing out = dir;
 				EnumFacing ovr = dir.rotateY();
-				int offX = out.getFrontOffsetX();
-				int offY = out.getFrontOffsetZ();
+				int offX = out.getXOffset();
+				int offY = out.getYOffset();
 				int compX = (offX == 1 ? -6 : 0) + (dir.getAxis() == Axis.Z ? -2 : 0);
 				int compY = (offY == 1 ? -6 : 0) + (dir.getAxis() == Axis.X ? -2 : 0);
 				int startX = offX * (14 + nesting * 6);
 				int startY = offY * (14 + nesting * 6);
 				for (int way = -1; way <= 1; way += 2) {
 					for (int i = 0; i < 4 + nesting; i++) {
-						int rowX = ovr.getFrontOffsetX() * i * way * 4;
-						int rowY = ovr.getFrontOffsetZ() * i * way * 4;
+						int rowX = ovr.getXOffset() * i * way * 4;
+						int rowY = ovr.getZOffset() * i * way * 4;
 						int realX = centerX + startX + compX + rowX;
 						int realY = centerY + startY + compY + rowY;
 						edges[((pixbufSel++ * 13402141) >> 1) & 3].blit(majPixbuf, realX * scale, realY * scale, edge);

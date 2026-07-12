@@ -2,6 +2,7 @@ package com.ferreusveritas.dynamictrees.proxy;
 
 import com.ferreusveritas.dynamictrees.ModBlocks;
 import com.ferreusveritas.dynamictrees.ModConstants;
+import com.ferreusveritas.dynamictrees.ModConfigs;
 import com.ferreusveritas.dynamictrees.ModItems;
 import com.ferreusveritas.dynamictrees.ModTrees;
 import com.ferreusveritas.dynamictrees.api.TreeHelper;
@@ -147,6 +148,20 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomStateMapper(ModTrees.dynamicCactus.getDynamicBranch(), new StateMap.Builder().ignore(BlockBranchCactus.TRUNK, BlockBranchCactus.ORIGIN).build());
 		ModelHelper.regModel(ModTrees.dynamicCactus.getDynamicBranch());
 		ModelHelper.regModel(ModTrees.dynamicCactus.getCommonSpecies().getSeed());
+
+		//Register models for dynamic mushrooms
+		if (ModConfigs.enableDynamicMushrooms && ModTrees.dynamicMushroom != null) {
+			ModelHelper.regModel(ModTrees.dynamicMushroom.getDynamicBranch());
+			ModelHelper.regModel(ModTrees.dynamicMushroom);
+			ModelHelper.regModel(ModTrees.dynamicMushroom.getRedMushroom().getSeed());
+			ModelHelper.regModel(ModTrees.dynamicMushroom.getBrownMushroom().getSeed());
+			ModelHelper.regModel(ModTrees.dynamicMushroom.redCap.getDynamicCapBlock());
+			ModelHelper.regModel(ModTrees.dynamicMushroom.redCap.getDynamicCapCenterBlock());
+			ModelHelper.regModel(ModTrees.dynamicMushroom.brownCap.getDynamicCapBlock());
+			ModelHelper.regModel(ModTrees.dynamicMushroom.brownCap.getDynamicCapCenterBlock());
+			ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.redCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE).build());
+			ModelLoader.setCustomStateMapper(ModTrees.dynamicMushroom.brownCap.getDynamicCapBlock(), new StateMap.Builder().ignore(BlockDynamicCap.DISTANCE).build());
+		}
 		
 		//Special seed for apple
 		ModelHelper.regModel(Species.REGISTRY.getValue(new ResourceLocation(ModConstants.MODID, "apple")).getSeed());

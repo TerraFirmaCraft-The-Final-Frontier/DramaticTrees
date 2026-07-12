@@ -25,9 +25,9 @@ public class AnimationHandlers {
 			super.initMotion(entity);
 
 			EnumFacing cutDir = entity.getDestroyData().cutDir;
-			entity.motionX += cutDir.getOpposite().getFrontOffsetX() * 0.1;
-			entity.motionY += cutDir.getOpposite().getFrontOffsetY() * 0.1;
-			entity.motionZ += cutDir.getOpposite().getFrontOffsetZ() * 0.1;
+			entity.motionX += cutDir.getOpposite().getXOffset() * 0.1;
+			entity.motionY += cutDir.getOpposite().getYOffset() * 0.1;
+			entity.motionZ += cutDir.getOpposite().getZOffset() * 0.1;
 		}
 
 	};

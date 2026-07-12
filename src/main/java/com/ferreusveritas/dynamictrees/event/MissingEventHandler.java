@@ -28,8 +28,8 @@ public class MissingEventHandler {
 	public void missingBlockMappings(MissingMappings<Block> event) {
 		for (Mapping<Block> missing : event.getMappings()) {
 			ResourceLocation resLoc = missing.key;
-			String domain = resLoc.getResourceDomain();
-			String path = resLoc.getResourcePath();
+			String domain = resLoc.getNamespace();
+			String path = resLoc.getPath();
 			if (domain.equals("growingtrees")) {
 				Logger.getLogger(ModConstants.MODID).log(Level.CONFIG, "Remapping Missing Block: " + path);
 				Block mappedBlock = Block.REGISTRY.getObject(new ResourceLocation(ModConstants.MODID, path));
@@ -45,8 +45,8 @@ public class MissingEventHandler {
 	public void missingItemMappings(MissingMappings<Item> event) {
 		for (Mapping<Item> missing : event.getMappings()) {
 			ResourceLocation resLoc = missing.key;
-			String domain = resLoc.getResourceDomain();
-			String path = resLoc.getResourcePath();
+			String domain = resLoc.getNamespace();
+			String path = resLoc.getPath();
 			if (domain.equals("growingtrees")) {
 				Logger.getLogger(ModConstants.MODID).log(Level.CONFIG, "Remapping Missing Item: " + path);
 				Item mappedItem = Item.REGISTRY.getObject(new ResourceLocation(ModConstants.MODID, path));

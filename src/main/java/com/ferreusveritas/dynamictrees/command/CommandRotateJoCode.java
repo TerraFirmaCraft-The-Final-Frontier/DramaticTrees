@@ -65,7 +65,7 @@ public class CommandRotateJoCode extends SubCommand {
 		}
 
 		turns = (3 - (turns % 4)) + 3;
-		code = new JoCode(code).rotate(EnumFacing.getHorizontal(turns)).toString();
+		code = new JoCode(code).rotate(EnumFacing.byHorizontalIndex(turns)).toString();
 		sender.sendMessage((new TextComponentString(code)));
 	}
 

@@ -24,7 +24,7 @@ public class BlockLeavesSnow extends BlockSnow {
 	public final String name = "leaves_snow";
 
 	public BlockLeavesSnow() {
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(new ResourceLocation(ModConstants.MODID, name));
 		setHardness(0.1f);
 		setSoundType(SoundType.SNOW);

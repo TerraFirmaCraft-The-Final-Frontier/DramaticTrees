@@ -228,11 +228,16 @@ public class EntityFallingTree extends Entity implements IModelTracker {
 			normAABB = normAABB.union(new AxisAlignedBB(relPos));
 		}
 
+		AxisAlignedBB renderAABB = normAABB;
+		for (BlockPos relPos : destroyData.getPositions(PosType.LEAVES, false)) {
+			renderAABB = renderAABB.union(new AxisAlignedBB(relPos));
+		}
+
 		//Adjust the bounding box to account for the tree falling over
 		double height = normAABB.maxY - normAABB.minY;
 		double width = MathHelper.absMax(normAABB.maxX - normAABB.minX, normAABB.maxZ - normAABB.minZ);
 		double grow = Math.max(0, height - (width / 2)) + 2;
-		renderNormAABB = normAABB.grow(grow + 4, 4, grow + 4);
+		renderNormAABB = renderAABB.grow(grow + 4, 4, grow + 4);
 
 		return normAABB;
 	}

@@ -56,6 +56,10 @@ public class DirtHelper {
 		return (dirtMap.getOrDefault(block, 0) & soilFlags) != 0;
 	}
 
+	public static boolean isSoilRegistered(Block block) {
+		return dirtMap.containsKey(block);
+	}
+
 	public static int getSoilFlags(String... types) {
 		int flags = 0;
 

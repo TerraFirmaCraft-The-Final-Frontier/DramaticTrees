@@ -1,6 +1,7 @@
 package com.ferreusveritas.dynamictrees.models;
 
 import com.ferreusveritas.dynamictrees.blocks.BlockBranch;
+import com.ferreusveritas.dynamictrees.blocks.BlockDynamicCap;
 import com.ferreusveritas.dynamictrees.client.QuadManipulator;
 import com.ferreusveritas.dynamictrees.entities.EntityFallingTree;
 import com.ferreusveritas.dynamictrees.trees.Species;
@@ -99,7 +100,7 @@ public class ModelEntityFallingTree {
 					leafState = ((IExtendedBlockState) leafState).getClean();
 				}
 				treeQuads.addAll(toTreeQuadData(QuadManipulator.getQuads(dispatcher.getModelForState(leafState), leafLoc.getValue(), new Vec3d(leafLoc.getKey())),
-					species.getLeavesProperties().foliageColorMultiplier(leafState, world, cutPos), leafState));
+					getLeavesColor(species, leafState, world, cutPos), leafState));
 			}
 		} else {
 			for (int index = 0; index < destructionData.getNumLeaves(); index++) {
@@ -112,6 +113,10 @@ public class ModelEntityFallingTree {
 		}
 
 		return treeQuads;
+	}
+
+	private int getLeavesColor(Species species, IBlockState state, World world, BlockPos pos) {
+		return state.getBlock() instanceof BlockDynamicCap ? 0xFFFFFFFF : species.getLeavesProperties().foliageColorMultiplier(state, world, pos);
 	}
 
 	public static List<TreeQuadData> toTreeQuadData(List<BakedQuad> bakedQuads, int color, IBlockState state) {

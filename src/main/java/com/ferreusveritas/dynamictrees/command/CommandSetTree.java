@@ -84,7 +84,7 @@ public class CommandSetTree extends SubCommand {
 		}
 
 		turns = (3 - (turns % 4)) + 3;
-		species.getJoCode(joCode).rotate(EnumFacing.getHorizontal(turns)).setCareful(true).generate(world, species, pos, world.getBiome(pos), EnumFacing.SOUTH, 8, SafeChunkBounds.ANY);
+		species.getJoCode(joCode).rotate(EnumFacing.byHorizontalIndex(turns)).setCareful(true).generate(world, species, pos, world.getBiome(pos), EnumFacing.SOUTH, 8, SafeChunkBounds.ANY);
 	}
 
 }

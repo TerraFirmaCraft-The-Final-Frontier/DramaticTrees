@@ -30,7 +30,7 @@ public abstract class ModelLoaderGeneric implements ICustomModelLoader {
 	// return true if our Model Loader accepts this ModelResourceLocation
 	@Override
 	public boolean accepts(ResourceLocation resourceLocation) {
-		return resourceLocation.getResourcePath().endsWith(code);//Hacky but fast
+		return resourceLocation.getPath().endsWith(code);//Hacky but fast
 	}
 
 	// When called for our BlockBranch's ModelResourceLocation, return our BranchModel.
@@ -47,9 +47,9 @@ public abstract class ModelLoaderGeneric implements ICustomModelLoader {
 			return null;
 		}
 
-		String path = virtualLocation.getResourcePath(); // Extract the path portion of the ResourceLocation
+		String path = virtualLocation.getPath(); // Extract the path portion of the ResourceLocation
 		path = path.substring(0, path.length() - code.length()); // Remove the ending code from the location
-		ResourceLocation location = new ResourceLocation(virtualLocation.getResourceDomain(), path); // Recreate the resource location without the code
+		ResourceLocation location = new ResourceLocation(virtualLocation.getNamespace(), path); // Recreate the resource location without the code
 
 		ModelBlock modelBlock = null;
 		Reader reader = null;
@@ -84,7 +84,7 @@ public abstract class ModelLoaderGeneric implements ICustomModelLoader {
 	}
 
 	protected ResourceLocation getModelLocation(ResourceLocation location) {
-		return new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".json");
+		return new ResourceLocation(location.getNamespace(), location.getPath() + ".json");
 	}
 
 	@Override

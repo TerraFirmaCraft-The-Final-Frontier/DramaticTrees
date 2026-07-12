@@ -16,6 +16,9 @@ public class ModSoundEvents {
 	public static final SoundEvent FALLING_TREE_SMALL_END_BARE = createSoundEvent("falling_tree_small_end_bare");
 	public static final SoundEvent FALLING_TREE_HIT_WATER = createSoundEvent("falling_tree_hit_water");
 	public static final SoundEvent FALLING_TREE_SMALL_HIT_WATER = createSoundEvent("falling_tree_small_hit_water");
+	public static final SoundEvent FALLING_TREE_FUNGUS_START = createSoundEvent("falling_tree_fungus_start");
+	public static final SoundEvent FALLING_TREE_FUNGUS_END = createSoundEvent("falling_tree_fungus_end");
+	public static final SoundEvent FALLING_TREE_FUNGUS_SMALL_END = createSoundEvent("falling_tree_fungus_small_end");
 
 	private static SoundEvent createSoundEvent(String path) {
 		ResourceLocation rl = new ResourceLocation(ModConstants.MODID, path);
@@ -32,7 +35,10 @@ public class ModSoundEvents {
 			FALLING_TREE_SMALL_END,
 			FALLING_TREE_SMALL_END_BARE,
 			FALLING_TREE_HIT_WATER,
-			FALLING_TREE_SMALL_HIT_WATER
+			FALLING_TREE_SMALL_HIT_WATER,
+			FALLING_TREE_FUNGUS_START,
+			FALLING_TREE_FUNGUS_END,
+			FALLING_TREE_FUNGUS_SMALL_END
 		);
 	}
 }

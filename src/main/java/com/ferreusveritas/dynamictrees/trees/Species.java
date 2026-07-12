@@ -504,7 +504,7 @@ public class Species extends net.minecraftforge.registries.IForgeRegistryEntry.I
 	 * Generate a seed. Developer is still required to register the item in the appropriate registries.
 	 */
 	public Species generateSeed() {
-		Seed seed = new Seed(getRegistryName().getResourcePath() + "seed");
+		Seed seed = new Seed(getRegistryName().getPath() + "seed");
 		setSeedStack(new ItemStack(seed));
 		return this;
 	}
@@ -1116,7 +1116,7 @@ public class Species extends net.minecraftforge.registries.IForgeRegistryEntry.I
 		//Select a direction from the probability map
 		int choice = com.ferreusveritas.dynamictrees.util.MathHelper.selectRandomFromDistribution(signal.rand,
 			probMap);//Select a direction from the probability map
-		return newDirectionSelected(EnumFacing.getFront(choice != -1 ? choice : 1),
+		return newDirectionSelected(EnumFacing.byIndex(choice != -1 ? choice : 1),
 			signal);//Default to up if things are screwy
 	}
 
@@ -1606,7 +1606,7 @@ public class Species extends net.minecraftforge.registries.IForgeRegistryEntry.I
 	 */
 	public void addJoCodes() {
 		joCodeStore.addCodesFromFile(this,
-			"assets/" + getRegistryName().getResourceDomain() + "/trees/" + getRegistryName().getResourcePath() +
+			"assets/" + getRegistryName().getNamespace() + "/trees/" + getRegistryName().getPath() +
 				".txt");
 	}
 

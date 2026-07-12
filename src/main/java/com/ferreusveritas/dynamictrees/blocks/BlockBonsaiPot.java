@@ -56,7 +56,7 @@ public class BlockBonsaiPot extends BlockContainer {
 	public BlockBonsaiPot(String name) {
 		super(Blocks.FLOWER_POT.getMaterial(Blocks.FLOWER_POT.getDefaultState()));
 		setRegistryName(name);
-		setUnlocalizedName(getRegistryName().toString());
+		setTranslationKey(getRegistryName().toString());
 	}
 
 	//////////////////////////////
@@ -236,7 +236,7 @@ public class BlockBonsaiPot extends BlockContainer {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 

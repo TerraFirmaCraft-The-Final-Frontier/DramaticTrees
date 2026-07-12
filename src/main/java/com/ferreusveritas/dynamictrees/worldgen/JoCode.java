@@ -328,7 +328,7 @@ public class JoCode {
 				case returnCode:
 					return codePos + 1;
 				default:
-					EnumFacing dir = EnumFacing.getFront(code);
+					EnumFacing dir = EnumFacing.byIndex(code);
 					pos = pos.offset(dir);
 					if (!disabled) {
 						disabled = setBlockForGeneration(world, species, pos, dir, careful);

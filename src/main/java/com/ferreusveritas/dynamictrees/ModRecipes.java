@@ -66,8 +66,8 @@ public class ModRecipes {
 	public static void createSeedToSaplingWithDirtBucketRecipe(ItemStack seedStack, ItemStack saplingStack, String suffix, ResourceLocation species) {
 		if(ModConfigs.compatRecipeForSaplings) {
 			if (!saplingStack.isEmpty() && !seedStack.isEmpty()) {
-				String speciesPath = species.getResourcePath();
-				String speciesDomain = species.getResourceDomain();
+				String speciesPath = species.getPath();
+				String speciesDomain = species.getNamespace();
 				
 				//Creates a vanilla sapling from a seed and dirt bucket
 				GameRegistry.addShapelessRecipe(
@@ -85,8 +85,8 @@ public class ModRecipes {
 	
 	public static void createSaplingToSeedWithDirtBucketRecipe(ItemStack saplingStack, ItemStack seedStack, String suffix, ResourceLocation species) {
 		if (!saplingStack.isEmpty() && !seedStack.isEmpty()) {
-			String speciesPath = species.getResourcePath();
-			String speciesDomain = species.getResourceDomain();
+			String speciesPath = species.getPath();
+			String speciesDomain = species.getNamespace();
 			
 			//Create a seed from a sapling and dirt bucket
 			GameRegistry.addShapelessRecipe(
@@ -137,7 +137,7 @@ public class ModRecipes {
 	 */
 	private static void createFruitToSeedRecipe(ItemStack seedStack, ItemStack fruitStack, ResourceLocation species, boolean requiresBonemeal) {
 		if (fruitStack != null && !fruitStack.isEmpty()) {
-			ResourceLocation seedFromFruit = new ResourceLocation(species.getResourceDomain(), species.getResourcePath() + "seedfromfruit");
+			ResourceLocation seedFromFruit = new ResourceLocation(species.getNamespace(), species.getPath() + "seedfromfruit");
 			Ingredient fruit = Ingredient.fromStacks(fruitStack);
 			Ingredient bonemeal = Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 15));
 			Ingredient dirtBucket = Ingredient.fromItem(com.ferreusveritas.dynamictrees.ModItems.dirtBucket);//Dirt Bucket is not optional!

@@ -73,7 +73,7 @@ public class TreeJungle extends TreeFamilyVanilla {
 		private static final String speciesName = "megajungle";
 
 		SpeciesMegaJungle(TreeFamily treeFamily) {
-			super(new ResourceLocation(treeFamily.getName().getResourceDomain(), speciesName), treeFamily);
+			super(new ResourceLocation(treeFamily.getName().getNamespace(), speciesName), treeFamily);
 
 			setRequiresTileEntity(true);
 

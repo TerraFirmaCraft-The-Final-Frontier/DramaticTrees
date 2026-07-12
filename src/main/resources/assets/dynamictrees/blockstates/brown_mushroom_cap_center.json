@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"age=0": { "model": "dynamictrees:brown_mushroom_cap_center_age0" },
+		"age=1": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=2": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=3": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=4": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=5": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=6": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=7": { "model": "dynamictrees:brown_mushroom_cap_center" },
+		"age=8": { "model": "dynamictrees:brown_mushroom_cap_center" }
+	}
+}

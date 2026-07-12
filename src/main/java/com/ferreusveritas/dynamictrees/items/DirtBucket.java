@@ -27,7 +27,7 @@ public class DirtBucket extends Item {
 
 	public DirtBucket(String name) {
 		setRegistryName(name);
-		setUnlocalizedName(getRegistryName().toString());
+		setTranslationKey(getRegistryName().toString());
 		setMaxStackSize(1);
 		setContainerItem(this);
 		setCreativeTab(ModTabs.dynamicTreesTab);

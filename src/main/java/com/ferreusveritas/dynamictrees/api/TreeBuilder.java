@@ -301,7 +301,7 @@ public class TreeBuilder {
 
 				for (ISpeciesCreator creator : extraSpeciesCreators) {
 					Species species = creator.create(this);
-					extraSpecies.put(species.getRegistryName().getResourcePath(), species);
+					extraSpecies.put(species.getRegistryName().getPath(), species);
 				}
 
 			}

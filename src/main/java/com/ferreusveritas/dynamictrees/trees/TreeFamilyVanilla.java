@@ -34,7 +34,7 @@ public class TreeFamilyVanilla extends TreeFamily {
 
 	@Override
 	public ILeavesProperties getCommonLeaves() {
-		return ModBlocks.leaves.get(getName().getResourcePath());
+		return ModBlocks.leaves.get(getName().getPath());
 	}
 
 }

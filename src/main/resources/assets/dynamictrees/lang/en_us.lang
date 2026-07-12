@@ -17,6 +17,11 @@ tile.dynamictrees:junglebranch.name=Jungle Tree
 tile.dynamictrees:darkoakbranch.name=Dark Oak Tree
 tile.dynamictrees:acaciabranch.name=Acacia Tree
 tile.dynamictrees:cactusbranch.name=Cactus
+tile.dynamictrees:mushroombranch.name=Giant Mushroom
+tile.dynamictrees:red_mushroom_cap.name=Red Mushroom Cap
+tile.dynamictrees:brown_mushroom_cap.name=Brown Mushroom Cap
+tile.dynamictrees:red_mushroom_cap_center.name=Red Mushroom Cap
+tile.dynamictrees:brown_mushroom_cap_center.name=Brown Mushroom Cap
 
 # Species names
 species.dynamictrees:oak.name=Oak
@@ -31,6 +36,10 @@ species.dynamictrees:darkoak.name=Dark Oak
 species.dynamictrees:acacia.name=Acacia
 species.dynamictrees:apple.name=Apple
 species.dynamictrees:cactus.name=Cactus
+species.dynamictrees:mushroomred.name=Red Mushroom
+species.dynamictrees:mushroombrn.name=Brown Mushroom
+species.dynamictrees:megamushroomred.name=Mega Red Mushroom
+species.dynamictrees:megamushroombrn.name=Mega Brown Mushroom
 
 # Seed names
 item.dynamictrees:oakseed.name=Oak Acorn
@@ -41,6 +50,8 @@ item.dynamictrees:darkoakseed.name=Dark Oak Acorn
 item.dynamictrees:acaciaseed.name=Acacia Seed
 item.dynamictrees:appleseed.name=Apple Pip
 item.dynamictrees:cactusseed.name=Cactus Seed
+item.dynamictrees:mushroomredseed.name=Red Mushroom
+item.dynamictrees:mushroombrnseed.name=Brown Mushroom
 
 # Potion item names
 item.dynamictrees:dendropotion.biochar.name=Biochar Base Potion

@@ -1,0 +1,6 @@
+{
+	"parent": "dynamictrees:block/template_single_face",
+	"textures": {
+		"texture": "blocks/mushroom_block_skin_brown"
+	}
+}

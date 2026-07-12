@@ -34,7 +34,7 @@ public class ModelLoaderSapling implements ICustomModelLoader {
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		return modelLocation.getResourceDomain().equals(ModConstants.MODID) && modelLocation.getResourcePath().endsWith("sapling.smart");
+		return modelLocation.getNamespace().equals(ModConstants.MODID) && modelLocation.getPath().endsWith("sapling.smart");
 	}
 
 }
