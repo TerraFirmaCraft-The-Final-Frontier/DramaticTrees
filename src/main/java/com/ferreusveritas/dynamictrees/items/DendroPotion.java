@@ -38,8 +38,8 @@ public class DendroPotion extends Item implements ISubstanceEffectProvider, IEmp
 		DEPLETION(1, true, "depletion", 0x76be6d),
 		GIGAS(2, true, "gigas", 0xe3901d),
 		BURGEONING(3, true, "burgeoning", 0xa9bebe),
-		FERTILITY(4, false, "fertility", 0x4ad400),
-		PERSISTANCE(5, false, "persistance", 0x389aff),
+		FERTILITY(4, true, "fertility", 0x4ad400),
+		PERSISTANCE(5, true, "persistance", 0x389aff),
 		TRANSFORM(6, true, "transform", 0x7fb8a4);
 
 		private final int index;
